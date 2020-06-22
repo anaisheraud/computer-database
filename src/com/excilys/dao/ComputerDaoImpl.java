@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.excilys.beans.Computer;
 import com.excilys.mappers.ComputerMapper;
+import com.excilys.mappers.DateMapper;
 
 public class ComputerDaoImpl implements ComputerDao {
 	
@@ -96,8 +97,8 @@ public class ComputerDaoImpl implements ComputerDao {
 					("INSERT INTO computer(id, name, introduced, discontinued, company_id) VALUES (?,?,?,?,?);");
 			preparedStatement.setInt(1, computer.getId());
 			preparedStatement.setString(2, computer.getName());
-			preparedStatement.setDate(3, (java.sql.Date) computer.getIntroduced());
-			preparedStatement.setDate(4, (java.sql.Date) computer.getDiscontinued());
+			preparedStatement.setDate(3, DateMapper.localDateTosqlDate(computer.getIntroduced()));
+			preparedStatement.setDate(4, DateMapper.localDateTosqlDate(computer.getDiscontinued()));
 			preparedStatement.setInt(5, computer.getCompany_id());
 			
 			preparedStatement.executeUpdate();
@@ -121,8 +122,8 @@ public class ComputerDaoImpl implements ComputerDao {
 					("UPDATE computer SET id = ?, name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?;");
 			preparedStatement.setInt(1, computer.getId());
 			preparedStatement.setString(2, computer.getName());
-			preparedStatement.setDate(3, (java.sql.Date) computer.getIntroduced());
-			preparedStatement.setDate(4, (java.sql.Date) computer.getDiscontinued());
+			preparedStatement.setDate(3, DateMapper.localDateTosqlDate(computer.getIntroduced()));
+			preparedStatement.setDate(4, DateMapper.localDateTosqlDate(computer.getDiscontinued()));
 			preparedStatement.setInt(5, computer.getCompany_id());
 			preparedStatement.setInt(6, computer.getId());
 			
