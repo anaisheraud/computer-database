@@ -25,6 +25,7 @@ public class ComputerDaoImpl implements ComputerDao {
 	// et qu'on retrouve ainsi nos requête sql : 
 	// insert into, select, from..
 	
+	
 	public List<Computer> lister(){
 		// retourne une liste d'utilisateurs
 		List<Computer> computers = new ArrayList<Computer>();
@@ -44,6 +45,35 @@ public class ComputerDaoImpl implements ComputerDao {
 				//ajout les ordinateurs de ma bdd dans une liste
 				computers.add(computer);
 			}
+		} catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return computers;
+	} 
+	
+	public List<Computer> listerpage(int entier1, int entier2){
+		// retourne une liste d'utilisateurs
+		List<Computer> computers = new ArrayList<Computer>();
+		Connection connexion = null;
+		PreparedStatement preparedstatement = null;
+		ResultSet resultat = null;
+		
+		try {
+			connexion = daoFactory.getConnection();
+			preparedstatement = connexion.prepareStatement("SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id >= ? AND id <= ?;");
+			preparedstatement.setInt(1, entier1);
+			preparedstatement.setInt(2, entier2);
+			resultat = preparedstatement.executeQuery();
+			
+			while (resultat.next()) {
+				
+				Computer computer = ComputerMapper.getComputer(resultat);
+				
+				//ajout les ordinateurs de ma bdd dans une liste
+				computers.add(computer);
+				
+			}
+			
 		} catch (SQLException e) {
         e.printStackTrace();
     }
