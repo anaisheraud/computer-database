@@ -11,6 +11,7 @@ import com.excilys.beans.Computer;
 
 public interface ComputerDao {
 	//Ajoute de l'ordinateur et lister les suivants
+	List<Computer> listerpage(int entier1, int entier2);
 	List<Computer> lister();
 	void ajouter(Computer computer);
 	boolean update(Computer computer);
