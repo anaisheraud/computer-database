@@ -1,11 +1,12 @@
 package services;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
 import com.excilys.beans.Computer;
 import com.excilys.dao.DaoFactory;
+import com.excilys.mappers.DateMapper;
 
 public class ServiceComputer {
 	
@@ -43,6 +44,8 @@ public class ServiceComputer {
 	 
 	 public static void create() {
 		 
+		 Computer computer = new Computer();
+		 
 		 Scanner scanner = new Scanner(System.in);
 		 System.out.println("Id ?");
 		 int id = scanner.nextInt();
@@ -50,23 +53,29 @@ public class ServiceComputer {
 		 System.out.println("Name ?");
 		 String name = scanner.next();
 		 
-		 System.out.println("Introduced ?");
+		 System.out.println("Date introduced ? Tap yes for continued");
 		 String introduced = scanner.next();
+		 computer.setIntroduced(DateMapper.stringToLocalDate(introduced));
 		 
-		 System.out.println("Discontinued ?");
+		 System.out.println("Date discontinued ? Tap yes for continued");
 		 String discontinued = scanner.next();
+		 computer.setDiscontinued(DateMapper.stringToLocalDate(discontinued));
 		 
 		 System.out.println("Company_id ?");
 		 int company_id = scanner.nextInt();
 		 
-		 Computer computer = new Computer(id, name, (Date.valueOf(introduced)), (Date.valueOf(discontinued)), company_id);
+		 Computer computer1 = new Computer(id, name, computer.getIntroduced(), computer.getDiscontinued(), company_id);
 		
-		 daoconnexion.getComputerDao().ajouter(computer);
+		 daoconnexion.getComputerDao().ajouter(computer1);
+		 
+		 System.out.println("It's ok ! Computer is created ");
 		 
 	 }
 	 
 	 public static void update() {
 		 
+		 Computer computer = new Computer();
+		 
 		 Scanner scanner = new Scanner(System.in);
 		 System.out.println("Id ?");
 		 int id = scanner.nextInt();
@@ -74,17 +83,19 @@ public class ServiceComputer {
 		 System.out.println("Name ?");
 		 String name = scanner.next();
 		 
-		 System.out.println("Introduced ?");
+		 System.out.println("Date introduced ? Tap yes for continued");
 		 String introduced = scanner.next();
+		 computer.setIntroduced(DateMapper.stringToLocalDate(introduced));
 		 
-		 System.out.println("Discontinued ?");
+		 System.out.println("Date discontinued ? Tap yes for continued");
 		 String discontinued = scanner.next();
+		 computer.setDiscontinued(DateMapper.stringToLocalDate(discontinued));
 		 
 		 System.out.println("Company_id ?");
 		 int company_id = scanner.nextInt();
 		 
-		 Computer computer = new Computer(id, name, (Date.valueOf(introduced)), (Date.valueOf(discontinued)), company_id);
-		 
+		 Computer computer1 = new Computer(id, name, computer.getIntroduced(), computer.getDiscontinued(), company_id);
+			 
 		 daoconnexion.getComputerDao().update(computer);
 		 
 		 if(daoconnexion.getComputerDao().update(computer)) {
@@ -96,6 +107,8 @@ public class ServiceComputer {
 		 System.out.println("Update impossible.");
 
 		 }
+		 
+		 System.out.println("It's ok ! Computer is update ");
 		 
 	 }
 	 
@@ -109,6 +122,8 @@ public class ServiceComputer {
 		 computer.setId(id);
 		 
 		 daoconnexion.getComputerDao().delete(computer);
+		 
+		 System.out.println("It's ok ! Computer is delete ");
 		 
 	 }
 	 

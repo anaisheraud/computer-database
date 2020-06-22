@@ -14,8 +14,8 @@ public static Computer getComputer(ResultSet resultSet) throws SQLException {
 		
 		return new Computer(resultSet.getInt("id"),
 				resultSet.getString("name"),
-				resultSet.getDate("introduced"),
-				resultSet.getDate("discontinued"),
+				DateMapper.sqlDateToLocalDate(resultSet.getDate("introduced")),
+				DateMapper.sqlDateToLocalDate(resultSet.getDate("discontinued")),
 				resultSet.getInt("company_id"));
 	}
 	

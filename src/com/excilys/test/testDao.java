@@ -1,7 +1,5 @@
 package com.excilys.test;
 
-import java.util.List;
-
 import com.excilys.beans.Computer;
 import com.excilys.dao.ComputerDao;
 import com.excilys.dao.ComputerDaoImpl;

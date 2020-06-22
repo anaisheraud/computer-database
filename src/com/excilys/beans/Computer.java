@@ -4,6 +4,7 @@ package com.excilys.beans;
  * Fichier assez simple qui contient des gets et sets
  */
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Computer {
@@ -11,8 +12,8 @@ public class Computer {
 	private int id; 
 	private String name;
 	//mettre en localdate
-	private Date introduced; //date 
-	private Date discontinued;
+	private LocalDate introduced; //date 
+	private LocalDate discontinued;
 	private int company_id;
 	
 	public int getId() {
@@ -27,16 +28,16 @@ public class Computer {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getIntroduced() {
+	public LocalDate getIntroduced() {
 		return introduced;
 	}
-	public void setIntroduced(Date introduced) {
+	public void setIntroduced(LocalDate introduced) {
 		this.introduced = introduced;
 	}
-	public Date getDiscontinued() {
+	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
-	public void setDiscontinued(Date discontinued) {
+	public void setDiscontinued(LocalDate discontinued) {
 		this.discontinued = discontinued;
 	}
 	public int getCompany_id() {
@@ -46,7 +47,7 @@ public class Computer {
 		this.company_id = company_id;
 	}
 	
-	public Computer(int id, String name, Date introduced, Date discontinued, int company_id) {
+	public Computer(int id, String name, LocalDate introduced, LocalDate discontinued, int company_id) {
 		this.id = id;
 		this.name = name;
 		this.introduced = introduced;
