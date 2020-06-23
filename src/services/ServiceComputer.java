@@ -53,13 +53,21 @@ public class ServiceComputer {
 		 System.out.println("Name ?");
 		 String name = scanner.next();
 		 
-		 System.out.println("Date introduced ? Tap yes for continued");
+		 System.out.println("Date introduced ? format date **-**-** ");
+		 try {
 		 String introduced = scanner.next();
 		 computer.setIntroduced(DateMapper.stringToLocalDate(introduced));
+		 } catch (Exception e) {
+			 System.out.println("La date n'est pas conforme !");
+		 }
 		 
-		 System.out.println("Date discontinued ? Tap yes for continued");
+		 System.out.println("Date discontinued ? format date **-**-**");
+		 try {
 		 String discontinued = scanner.next();
 		 computer.setDiscontinued(DateMapper.stringToLocalDate(discontinued));
+		 } catch (Exception e) {
+			 System.out.println("La date n'est pas conforme !");
+		 }
 		 
 		 System.out.println("Company_id ?");
 		 int company_id = scanner.nextInt();
@@ -83,13 +91,21 @@ public class ServiceComputer {
 		 System.out.println("Name ?");
 		 String name = scanner.next();
 		 
-		 System.out.println("Date introduced ? Tap yes for continued");
+		 System.out.println("Date introduced ? format date **-**-**");
+		 try {
 		 String introduced = scanner.next();
 		 computer.setIntroduced(DateMapper.stringToLocalDate(introduced));
+		 } catch (Exception e) {
+			 System.out.println("La date n'est pas conforme !");
+		 }
 		 
-		 System.out.println("Date discontinued ? Tap yes for continued");
+		 System.out.println("Date discontinued ? format date **-**-**");
+		 try {
 		 String discontinued = scanner.next();
 		 computer.setDiscontinued(DateMapper.stringToLocalDate(discontinued));
+	 	 } catch (Exception e) {
+	 		 System.out.println("La date n'est pas conforme !");
+	     }
 		 
 		 System.out.println("Company_id ?");
 		 int company_id = scanner.nextInt();
