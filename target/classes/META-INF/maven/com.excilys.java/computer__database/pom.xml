@@ -1,0 +1,61 @@
+<!-- maven nous a créé la structure d'un projet on est arrivé sur la page pom.xml, 
+elle va nous permettre de configurer Maven -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.excilys.java</groupId>
+  <artifactId>computer__database</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    
+    </properties>
+    
+  <dependencies>
+  
+  <!-- mysql-connector, JUnit, Mockito, Slf4j -->
+  <!-- la dépendance contient l'ID de groupe, un "artefact ID" du groupe,
+  et dans scope on fait appelle à quelle éxécution on veut pointer,
+  ici c'est nécessaire pour les tests avec mockito
+   la version utilisée est indiquée en dernier -->
+  
+  <dependency>
+  	<groupId>junit</groupId> 
+  	<artifactId>junit</artifactId>
+  	<version>4.13</version>
+  </dependency>
+  
+  <dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.20</version>
+  </dependency>
+  
+  <dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-all</artifactId>
+    <version>1.10.19</version>
+    <scope>test</scope>
+  </dependency>
+  
+  <dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>1.7.30</version>
+  </dependency>
+  
+   <dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-simple</artifactId>
+    <version>1.7.30</version>
+   </dependency>
+  
+  </dependencies>
+  
+</project>
