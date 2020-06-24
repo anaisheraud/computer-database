@@ -4,6 +4,11 @@ package com.excilys.cli;
 
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.excilys.dao.ComputerDaoImpl;
+
 import services.ServiceCompany;
 import services.ServiceComputer;
 
@@ -12,7 +17,7 @@ public class CommandLineInterface {
 	private static ServiceComputer serviceComputer = new ServiceComputer();
     private static ServiceCompany serviceCompany = new ServiceCompany();
     private static Scanner scanner = new Scanner(System.in);
-	
+    private static Logger logger = LoggerFactory.getLogger(ComputerDaoImpl.class);
     
     //Affiche les caractéristiques différentes pour le client
 	public static void Features() {
@@ -33,6 +38,8 @@ public class CommandLineInterface {
 	//Au lancement du programme, le client va rentrer un chiffre au clavier 
 	//Ci-dessous
 		public static void select() {
+			
+			logger.info("computer_database");
 			
 			boolean quit = true;
 		
