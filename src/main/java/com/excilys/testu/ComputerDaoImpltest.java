@@ -2,11 +2,13 @@
 package com.excilys.testu;
 
 import static org.junit.Assert.*;
+import static org.junit.Assume.assumeNotNull;
 
 import org.junit.Test;
 
 import com.excilys.beans.Computer;
 import com.excilys.dao.DaoFactory;
+
 
 public class ComputerDaoImpltest {
 
@@ -26,10 +28,41 @@ public class ComputerDaoImpltest {
 		//fail("Not yet implemented");
 	}
 	
+	/* Test de la méthode list */
+	@Test
+	public void testList() {
+		
+		DaoFactory daofactory = DaoFactory.getInstance();
+		
+		assertFalse(daofactory.getComputerDao().lister().isEmpty());
+		
+		System.out.println("@Test - List isn't empty !");
+		
+	}
+	
+	/* Test de la méthode page */
+	@Test 
 	public void testPage() {
 		
-
-		fail("Not yet implemented");
+		DaoFactory daofactory = DaoFactory.getInstance();
+		
+		int tailleattendue = 20;
+		
+		int tailletest = daofactory.getComputerDao().listerpage(1, 21).size(); 
+		
+		assertEquals("Test fail !", tailleattendue, tailletest);
+		
 	}
+	
+	/* Test - vérifie qu'aucun des paramètres (ici la liste) n'est égal à null */
+	@Test
+	public void testnotnull() {
+		
+		DaoFactory daofactory = DaoFactory.getInstance();
+		
+		assumeNotNull(daofactory.getComputerDao().lister());
+		
+	}
+	
 
 }

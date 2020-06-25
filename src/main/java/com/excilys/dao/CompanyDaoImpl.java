@@ -17,7 +17,7 @@ public class CompanyDaoImpl implements CompanyDao {
 	private DaoFactory daoFactory;
 	private Logger logger = LoggerFactory.getLogger(CompanyDaoImpl.class);
 
-	CompanyDaoImpl(DaoFactory daoFactory) {
+	public CompanyDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
 
