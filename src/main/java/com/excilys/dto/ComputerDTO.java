@@ -1,19 +1,17 @@
-package com.excilys.beans;
+package com.excilys.dto;
 /*
  * 
  * Fichier assez simple qui contient des gets et sets
  */
 
-import java.time.LocalDate;
-
-public class Computer {
+public class ComputerDTO {
 	
 	private int id; 
 	private String name;
-	//mettre en localdate
-	private LocalDate introduced; //date 
-	private LocalDate discontinued;
-	private int company_id;
+	//forcer localdate
+	private String introduced; //date 
+	private String discontinued;
+	private String company_id;
 	
 	public int getId() {
 		return id;
@@ -27,41 +25,33 @@ public class Computer {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public LocalDate getIntroduced() {
+	public String getIntroduced() {
 		return introduced;
 	}
-	public void setIntroduced(LocalDate introduced) {
+	public void setIntroduced(String introduced) {
 		this.introduced = introduced;
 	}
-	public LocalDate getDiscontinued() {
+	public String getDiscontinued() {
 		return discontinued;
 	}
-	public void setDiscontinued(LocalDate discontinued) {
+	public void setDiscontinued(String discontinued) {
 		this.discontinued = discontinued;
 	}
-	public int getCompany_id() {
+	public String getCompany_id() {
 		return company_id;
 	}
-	public void setCompany_id(int company_id) {
+	public void setCompany_id(String company_id) {
 		this.company_id = company_id;
 	}
 	
-	public Computer(int id, String name, LocalDate introduced, LocalDate discontinued, int company_id) {
-		this.id = id;
+	public ComputerDTO(String name, String introduced, String discontinued, String company_id) {
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
 		this.company_id = company_id;
 	}
 	
-	public Computer(String name, LocalDate introduced, LocalDate discontinued, int company_id) {
-		super();
-		this.name = name;
-		this.introduced = introduced;
-		this.discontinued = discontinued;
-		this.company_id = company_id;
-	}
-	public Computer() {
+	public ComputerDTO() {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -72,3 +62,4 @@ public class Computer {
 	}
 
 }
+

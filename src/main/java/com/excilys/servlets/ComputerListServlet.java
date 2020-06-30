@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.beans.Computer;
-import com.excilys.dao.ComputerDaoImpl;
 import com.excilys.dao.DaoFactory;
 
 /**
@@ -53,15 +52,16 @@ public class ComputerListServlet extends HttpServlet {
 		
 		//indique ou la jsp se trouve
 		//transmet l'objet requête et l'objet réponse à la jsp
-		this.getServletContext().getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
-		
+	
 		DaoFactory daofactory = DaoFactory.getInstance();
 		List<Computer> computers = new ArrayList<Computer>();
 		
 		computers =  daofactory.getComputerDao().lister();
 		
-		request.setAttribute("ListComputer", computers);
-		request.getRequestDispatcher("").forward(request, response);
+		request.getParameter("ListComputers");
+		request.setAttribute("ListComputers", computers);
+		//request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
 		
 	}
 
