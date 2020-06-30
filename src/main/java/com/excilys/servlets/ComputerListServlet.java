@@ -1,18 +1,23 @@
 package com.excilys.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.beans.Computer;
 import com.excilys.dao.ComputerDaoImpl;
+import com.excilys.dao.DaoFactory;
 
 /**
  * Servlet implementation class ComputerListServlet
  */
-@WebServlet("/")
+@WebServlet("/ListComputers")
 /* La classe Servlet étend une classe HttpServlet 
  * Une Servlet est une classe java qui hérite de HttpServlet*/
 public class ComputerListServlet extends HttpServlet {
@@ -50,7 +55,12 @@ public class ComputerListServlet extends HttpServlet {
 		//transmet l'objet requête et l'objet réponse à la jsp
 		this.getServletContext().getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
 		
-		request.setAttribute("ListComputer", ComputerDaoImpl.lister());
+		DaoFactory daofactory = DaoFactory.getInstance();
+		List<Computer> computers = new ArrayList<Computer>();
+		
+		computers =  daofactory.getComputerDao().lister();
+		
+		request.setAttribute("ListComputer", computers);
 		request.getRequestDispatcher("").forward(request, response);
 		
 	}
@@ -62,7 +72,7 @@ public class ComputerListServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request, response);
+		doGet(request, response);
 	}
 
 }
