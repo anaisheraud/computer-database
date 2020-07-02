@@ -48,7 +48,7 @@ public class ComputerDaoImpltest {
 		
 		int tailleattendue = 20;
 		
-		int tailletest = daofactory.getComputerDao().listerpage(1, 21).size(); 
+		int tailletest = daofactory.getComputerDao().listerpage(1, 21, 1).size(); 
 		
 		assertEquals("Test fail !", tailleattendue, tailletest);
 		

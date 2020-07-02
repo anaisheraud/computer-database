@@ -50,9 +50,9 @@ public class CommandLineInterface {
 				features = scanner.nextLine();
 				switch(features) { 
 				
-				case ("ListCt"):
-					ListComputers();
-					break;
+				/* case ("ListCt"):
+					ListComputers10();
+					break; */
 					
 				case ("ListCn"):
 					ListCompanies();
@@ -93,11 +93,11 @@ public class CommandLineInterface {
 		/* Appelle des méthodes */
 
 		//Affiche la liste de tous les ordinateurs par page
-		private static void ListComputers() {
+		/* private static void ListComputers10() {
 			// TODO Auto-generated method stub
 
 			int entier1 = 1;
-			int entier2 = 20;
+			int entier2 = 10;
 			
 			 System.out.println("List computers");
 			 ServiceComputer.listerpage(entier1, entier2);
@@ -113,14 +113,14 @@ public class CommandLineInterface {
 				 
 				 if(change.equals("b")) { 
 					 
-					 entier1 = entier1 - 20;
-					 entier2 = entier2 - 20;
+					 entier1 = entier1 - 10;
+					 entier2 = entier2 - 10;
 					 
-					 if(entier1 < 1 && entier2 < 20) {
+					 if(entier1 < 1 && entier2 < 10) {
 						 
-						 ServiceComputer.listerpage(1, 20);
+						 ServiceComputer.listerpage(1, 10);
 						 entier1 = 1;
-						 entier2 = 20;
+						 entier2 = 10;
 						 
 					 } 
 					 
@@ -128,8 +128,8 @@ public class CommandLineInterface {
 					 
 				 } else if(change.equals("n")) {
 						 
-					 entier1 = entier1 + 20;
-					 entier2 = entier2 + 20;	
+					 entier1 = entier1 + 10;
+					 entier2 = entier2 + 10;	
 					 ServiceComputer.listerpage(entier1, entier2);
 					 
 				 }
@@ -138,8 +138,7 @@ public class CommandLineInterface {
 				 
 			 }
 				 		 	 
-		}
-
+		} */
 
 	//Affiche la liste de toutes les compagnies 
 		private static void ListCompanies() {

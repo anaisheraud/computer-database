@@ -1,10 +1,20 @@
 package services;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.beans.Computer;
+import com.excilys.dao.ComputerDao;
 import com.excilys.dao.DaoFactory;
+import com.excilys.mappers.CompanyMapper;
+import com.excilys.mappers.ComputerMapper;
 import com.excilys.mappers.DateMapper;
 
 public class ServiceComputer {
@@ -16,9 +26,9 @@ public class ServiceComputer {
 	  * 
 	  * */
 	 
-	 public static void listerpage(int entier1, int entier2) {
+	 public static void listerpage(int entier1, int entier2, int lenPage) {
 		 
-		 List<Computer> allComputer = daoconnexion.getComputerDao().listerpage(entier1, entier2);
+		 List<Computer> allComputer = daoconnexion.getComputerDao().listerpage(entier1, entier2, lenPage);
 		 System.out.println(allComputer);
 		 
 	 }
@@ -141,5 +151,6 @@ public class ServiceComputer {
 		 System.out.println("It's ok ! Computer is delete ");
 		 
 	 }
+	
 	 
 }

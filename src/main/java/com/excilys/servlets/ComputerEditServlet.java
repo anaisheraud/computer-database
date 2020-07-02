@@ -27,14 +27,14 @@ import services.ServiceComputer;
 /**
  * Servlet implementation class ComputerAddServlet
  */
-@WebServlet("/ComputerAddServlet")
-public class ComputerAddServlet extends HttpServlet {
+@WebServlet("/EditComputers")
+public class ComputerEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ComputerAddServlet() {
+    public ComputerEditServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -48,12 +48,15 @@ public class ComputerAddServlet extends HttpServlet {
 		
 		List<Company> companies = new ArrayList<Company>();
 		
+		request.getParameter("id");
+		request.setAttribute("id", request.getParameter("id"));
+		
 		companies =  daofactory.getCompanyDao().lister();
 		
 		request.getParameter("Company");
 		request.setAttribute("Company", companies);
 		
-		this.getServletContext().getRequestDispatcher("/WEB-INF/addComputer.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/editComputer.jsp").forward(request, response);
 		
 	}
 
@@ -68,7 +71,7 @@ public class ComputerAddServlet extends HttpServlet {
 		ComputerDTO computerdto = new ComputerDTO();
 		Computer computer = new Computer();
 		
-
+		String id = request.getParameter("id");
 		
 		try {
 			Validators.validatorName(request.getParameter("computerName"));
@@ -81,6 +84,9 @@ public class ComputerAddServlet extends HttpServlet {
 				computerdto.setDiscontinued(request.getParameter("discontinued"));
 			}
 			computerdto.setCompany_id(request.getParameter("companyId"));
+
+			ComputerDTO computerDTO = new ComputerDTO(request.getParameter("computerName"), request.getParameter("introduced"), request.getParameter("discontinued"), request.getParameter("companyId"));
+	        computerDTO.setId(id);
 			
 			computer = ComputerMapperDTO.ComputerDtoToComputer(computerdto);
 			

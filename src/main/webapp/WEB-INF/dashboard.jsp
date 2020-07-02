@@ -22,7 +22,7 @@
 
     <section id="main">
         <div class="container">
-            <h1 id="homeTitle">
+            <h1 id="homeTitle"> <c:out value="${countComputers}"/>
                 Computers list
             </h1>
             <div id="actions" class="form-horizontal">
@@ -35,8 +35,8 @@
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer.html">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-success" id="addComputer" href="http://localhost:8080/computer__database/ComputerAddServlet">Add Computer</a> 
+                    <a class="btn btn-default" id="editComputer" href="http://localhost:8080/computer__database/EditComputers" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
         </div>
@@ -85,7 +85,7 @@
                             <input type="checkbox" name="cb" class="cb" value="0">
                         </td>
                         <td>
-                            <a href="editComputer.html" onclick=""><c:out value="${computer.name}"></c:out></a>
+                            <a href="http://localhost:8080/computer__database/EditComputers?id=${computer.id}" onclick=""><c:out value="${computer.name}"></c:out></a>
                         </td>
                         <td><c:out value="${computer.introduced}"></c:out></td>
                         <td><c:out value="${computer.discontinued}"></c:out></td>
@@ -103,27 +103,28 @@
     <footer class="navbar-fixed-bottom">
         <div class="container text-center">
             <ul class="pagination">
-                <li>
-                    <a href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                  </a>
-              </li>
-              <li><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li>
-                <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
+                 <li>
+                      <a href="ListComputers?page=${page}&lenPage=${lenPage}" aria-label="Previous">
+					  <span aria-hidden="true">&laquo;</span>
+                      </a>
+                 </li>
+                      <c:forEach var="i" begin="1" end="5">                
+              	 <li>
+              			<a name="${page+i}" id="page" href="ListComputers?page=${page+i}&lenPage=${lenPage}"><c:out value="${page+i}"></c:out></a>
+              	 </li>
+     		 		</c:forEach>
+                 <li>
+                    <a href="ListComputers?page=${page+5}&lenPage=${lenPage}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>                  	
                 </a>
             </li>
+         
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
-            <button type="button" class="btn btn-default">10</button>
-            <button type="button" class="btn btn-default">50</button>
-            <button type="button" class="btn btn-default">100</button>
+            <button type="button" class="btn btn-default"><a href = "ListComputers?lenPage=${lenPage=10}">10</a></button>
+            <button type="button" class="btn btn-default"><a href = "ListComputers?lenPage=${lenPage=50}">50</a></button>
+            <button type="button" class="btn btn-default"><a href = "ListComputers?lenPage=${lenPage=100}">100</a></button>
         </div>
 
     </footer>

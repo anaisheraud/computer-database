@@ -11,7 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.beans.Computer;
+import com.excilys.dao.ComputerDao;
+import com.excilys.dao.ComputerDaoImpl;
 import com.excilys.dao.DaoFactory;
+
+import services.ServiceComputer;
 
 /**
  * Servlet implementation class ComputerListServlet
@@ -21,7 +25,11 @@ import com.excilys.dao.DaoFactory;
  * Une Servlet est une classe java qui hérite de HttpServlet*/
 public class ComputerListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	
+	public int lenPage;
+	public int page;
+	public int maxPage;
+	
 	//Elle possède un constructeur
     /**
      * @see HttpServlet#HttpServlet()
@@ -56,15 +64,34 @@ public class ComputerListServlet extends HttpServlet {
 		DaoFactory daofactory = DaoFactory.getInstance();
 		List<Computer> computers = new ArrayList<Computer>();
 		
-		computers =  daofactory.getComputerDao().lister();
+		int countComputers = ComputerDaoImpl.getAll();
+		
+		///computers =  daofactory.getComputerDao().lister();
+		
+		if(request.getParameter("lenPage") != null)
+		{
+			lenPage = Integer.parseInt(request.getParameter("lenPage"));
+			System.out.println(lenPage);
+		}
+		else
+		{
+			lenPage = 10;
+		}
+			
+		computers =  daofactory.getComputerDao().listerpage(page, page+lenPage, lenPage);
+		
+		System.out.println(lenPage);
 		
 		request.getParameter("ListComputers");
+		request.setAttribute("countComputers", countComputers);
 		request.setAttribute("ListComputers", computers);
+		request.setAttribute("page", page);
+		request.setAttribute("lenPage", lenPage);
 		//request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
 		this.getServletContext().getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
 		
 	}
-
+	
 	//Quand il envoie des données de formulaire, il souhaite faire un post
 	//poster des informations
 	/**

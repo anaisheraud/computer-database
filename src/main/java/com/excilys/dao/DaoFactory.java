@@ -9,12 +9,20 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 public class DaoFactory {
 	
-	private static final String url = "jdbc:mysql://localhost/computer-database-db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	 
+	/* private static final String url = "jdbc:mysql://localhost/computer-database-db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	private static final String username = "admincdb";
 	private static final String password = "qwerty1234";
+	
+	*/
+	
+    private static HikariDataSource ds;
+    
+    private static HikariConfig config;
 
 	public DaoFactory(){
 		
@@ -25,21 +33,24 @@ public class DaoFactory {
 	
 	//c'est ici que se fait la connexion
 	public static DaoFactory getInstance() {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		}catch (ClassNotFoundException e) {
-			
-		}
-		
+		config = new HikariConfig("/hikari.properties");
+		ds = new HikariDataSource(config);
 		DaoFactory instance = new DaoFactory();
 		return instance;
 	}
-		
+	
+    public static Connection getConnection() throws SQLException {
+        return ds.getConnection();
+    }
+	/*
+	
 	//on a une méthode getConnection qui permet à tout moment 
 	//de récupérer la connexion à la base de données
 	public Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(url, username, password);
 	}
+	
+	*/
 	
 	//Récupération du Dao (représenter les tables de notre BDD)
 	//retourne l'implémentation et renvoie la factory elle-même
@@ -50,5 +61,8 @@ public class DaoFactory {
 	public CompanyDao getCompanyDao() {
 		return new CompanyDaoImpl(this);
 	}
+ 
+
+	
 	
 }

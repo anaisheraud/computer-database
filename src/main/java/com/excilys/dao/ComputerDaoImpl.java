@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.beans.Computer;
+import com.excilys.mappers.CompanyMapper;
 import com.excilys.mappers.ComputerMapper;
 import com.excilys.mappers.DateMapper;
 
@@ -18,8 +19,8 @@ public class ComputerDaoImpl implements ComputerDao {
 	
 	// quand on instancie les objets, on remarque qu'on récupère 
 	// la factory et nous donne accès directement à l'objet connecté
-	private DaoFactory daoFactory;
-	private Logger logger = LoggerFactory.getLogger(ComputerDaoImpl.class);
+	private static DaoFactory daoFactory;
+	private static Logger logger = LoggerFactory.getLogger(ComputerDaoImpl.class);
 
 	public ComputerDaoImpl(DaoFactory daoFactory){
 		this.daoFactory = daoFactory;
@@ -57,7 +58,7 @@ public class ComputerDaoImpl implements ComputerDao {
     return computers;
 	} 
 	
-	public List<Computer> listerpage(int entier1, int entier2){
+	public List<Computer> listerpage(int entier1, int entier2, int lenPage){
 		// retourne une liste d'utilisateurs
 		List<Computer> computers = new ArrayList<Computer>();
 		Connection connexion = null;
@@ -67,8 +68,8 @@ public class ComputerDaoImpl implements ComputerDao {
 		try {
 			connexion = daoFactory.getConnection();
 			preparedstatement = connexion.prepareStatement("SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id >= ? AND id <= ?;");
-			preparedstatement.setInt(1, entier1);
-			preparedstatement.setInt(2, entier2);
+			preparedstatement.setInt(1, entier1 + lenPage);
+			preparedstatement.setInt(2, entier2 + lenPage);
 			resultat = preparedstatement.executeQuery();
 			
 			while (resultat.next()) {
@@ -165,5 +166,27 @@ public class ComputerDaoImpl implements ComputerDao {
 			}
 		return true;
 	}
+	
+	  public static int getAll() {
+		  	Connection connexion = null;
+			PreparedStatement preparedStatement = null;
+		  
+			int countComputers = 0;
+	        
+	        try {
+	        	connexion = daoFactory.getConnection();
+	            preparedStatement = connexion.prepareStatement("SELECT COUNT(id) as total FROM computer;"); 
+	            System.out.println(preparedStatement);
+	           
+	            ResultSet resultSet = preparedStatement.executeQuery();
+	            while (resultSet.next()) {
+	            	countComputers = resultSet.getInt("total");
+	            }
+	            
+	        } catch (SQLException e) {
+	            logger.error("error listing all computers", e);
+	        }
+	        return countComputers;
+	    }
 	
 }
