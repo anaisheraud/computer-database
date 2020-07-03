@@ -15,7 +15,9 @@ public interface ComputerDao {
 	List<Computer> lister();
 	void ajouter(Computer computer);
 	boolean update(Computer computer);
-	public boolean delete(Computer computer);
+	boolean delete(Computer computer);
+	List<Computer> getbyName(String search);
+	List<Computer> orderBy();
 	
 	//Ici on peut continuer à définir des méthodes et on les appelerait
 	//

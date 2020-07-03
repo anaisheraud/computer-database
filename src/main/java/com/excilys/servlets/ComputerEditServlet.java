@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.validation.Validator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.beans.Company;
 import com.excilys.beans.Computer;
 import com.excilys.dao.CompanyDao;
@@ -22,6 +25,7 @@ import com.excilys.dto.ComputerDTO;
 import com.excilys.mappersDTO.ComputerMapperDTO;
 import com.excilys.validator.Validators;
 
+import jdk.internal.jline.internal.Log;
 import services.ServiceComputer;
 
 /**
@@ -46,10 +50,10 @@ public class ComputerEditServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		DaoFactory daofactory = DaoFactory.getInstance();
 		
-		List<Company> companies = new ArrayList<Company>();
-		
 		request.getParameter("id");
 		request.setAttribute("id", request.getParameter("id"));
+		
+		List<Company> companies = new ArrayList<Company>();
 		
 		companies =  daofactory.getCompanyDao().lister();
 		
@@ -73,6 +77,8 @@ public class ComputerEditServlet extends HttpServlet {
 		
 		String id = request.getParameter("id");
 		
+		Logger logger = LoggerFactory.getLogger(ComputerEditServlet.class);
+		
 		try {
 			Validators.validatorName(request.getParameter("computerName"));
 			computerdto.setName(request.getParameter("computerName"));
@@ -84,18 +90,23 @@ public class ComputerEditServlet extends HttpServlet {
 				computerdto.setDiscontinued(request.getParameter("discontinued"));
 			}
 			computerdto.setCompany_id(request.getParameter("companyId"));
-
-			ComputerDTO computerDTO = new ComputerDTO(request.getParameter("computerName"), request.getParameter("introduced"), request.getParameter("discontinued"), request.getParameter("companyId"));
-	        computerDTO.setId(id);
+			
+			computerdto.setId(id);
 			
 			computer = ComputerMapperDTO.ComputerDtoToComputer(computerdto);
 			
-			daofactory.getComputerDao().ajouter(computer);
+			//System.out.println(computer);
+			
+			daofactory.getComputerDao().update(computer);
+			
+			logger.info("tout est ok" + "id = " + computer.getId());
 			
 		}catch (Exception e) {
 			request.getParameter("ErrorName");
 			request.setAttribute("ErrorName", "ERROR !!! This field can't be empty !");
 			e.printStackTrace();
+			
+			logger.error("erreur");
 		}
 	
 		System.out.println(computer);

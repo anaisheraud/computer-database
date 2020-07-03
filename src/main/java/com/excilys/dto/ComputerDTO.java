@@ -44,7 +44,8 @@ public class ComputerDTO {
 		this.company_id = company_id;
 	}
 	
-	public ComputerDTO(String name, String introduced, String discontinued, String company_id) {
+	public ComputerDTO(String Id, String name, String introduced, String discontinued, String company_id) {
+		this.id = id;
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;

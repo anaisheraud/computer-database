@@ -3,12 +3,17 @@ package com.excilys.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.excilys.beans.Computer;
 import com.excilys.dao.ComputerDao;
@@ -77,14 +82,44 @@ public class ComputerListServlet extends HttpServlet {
 		{
 			lenPage = 10;
 		}
+		
+		System.out.println("test : " + request.getParameter("orderBy"));
+		
+		if(request.getParameter("orderBy") != null && !request.getParameter("orderBy").isEmpty()) {
+			System.out.println("orderBy");
+			computers = DaoFactory.getInstance().getComputerDao().orderBy();
 			
-		computers =  daofactory.getComputerDao().listerpage(page, page+lenPage, lenPage);
+		} else if (request.getParameter("search") == null || request.getParameter("search").isEmpty()) {
+			System.out.println("lister");
+			computers = DaoFactory.getInstance().getComputerDao().lister();
+			
+		request.getParameter("ListComputers");
+		request.setAttribute("ListComputers", computers);
+			
+		} else {
+			System.out.println("search");
+
+			String search = new String("%");
+			
+			search += request.getParameter("search");
+			search += "%";
+			request.setAttribute("search", search);
+
+			computers = DaoFactory.getInstance().getComputerDao().getbyName(search);
+			
+			request.getParameter("ListComputers");
+			request.setAttribute("ListComputers", computers);
+
+		}
+
+			
+		// en attendant... computers =  daofactory.getComputerDao().listerpage(page, page+lenPage, lenPage);
 		
 		System.out.println(lenPage);
 		
 		request.getParameter("ListComputers");
-		request.setAttribute("countComputers", countComputers);
 		request.setAttribute("ListComputers", computers);
+		request.setAttribute("countComputers", countComputers);
 		request.setAttribute("page", page);
 		request.setAttribute("lenPage", lenPage);
 		//request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
@@ -99,6 +134,24 @@ public class ComputerListServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		if(request.getParameter("selection") != null && !request.getParameter("selection").equals("")) {
+			
+			String id = request.getParameter("selection");
+			
+			System.out.println("id :" + id);
+			
+			List<Integer> ListId = Stream.of(id.split(","))
+					
+					.map(Integer::parseInt)
+					.collect(Collectors.toList());
+			
+			for(Integer Id : ListId) {
+				DaoFactory.getInstance().getComputerDao().delete(ComputerDaoImpl.find(Id));
+				
+			}
+	}
+		
 		doGet(request, response);
 	}
 

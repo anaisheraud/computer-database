@@ -7,7 +7,7 @@ import com.excilys.mappers.DateMapper;
 public class ComputerMapperDTO {
 	
 	public static Computer ComputerDtoToComputer(ComputerDTO computerDto) {
-		Computer computer = new Computer(computerDto.getName(),DateMapper.stringToLocalDate(computerDto.getDiscontinued()),DateMapper.stringToLocalDate(computerDto.getIntroduced()),(int)Integer.valueOf(computerDto.getCompany_id()));
+		Computer computer = new Computer((int)Integer.valueOf(computerDto.getId()),computerDto.getName(),DateMapper.stringToLocalDate(computerDto.getDiscontinued()),DateMapper.stringToLocalDate(computerDto.getIntroduced()),(int)Integer.valueOf(computerDto.getCompany_id()));
 		return computer;
 	}
 	

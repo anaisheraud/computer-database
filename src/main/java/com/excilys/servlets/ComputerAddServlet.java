@@ -67,9 +67,7 @@ public class ComputerAddServlet extends HttpServlet {
 		
 		ComputerDTO computerdto = new ComputerDTO();
 		Computer computer = new Computer();
-		
-
-		
+				
 		try {
 			Validators.validatorName(request.getParameter("computerName"));
 			computerdto.setName(request.getParameter("computerName"));

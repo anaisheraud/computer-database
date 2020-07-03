@@ -6,6 +6,7 @@ package com.excilys.dao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -121,6 +122,7 @@ public class ComputerDaoImpl implements ComputerDao {
 		PreparedStatement preparedStatement = null;
 		
 		try {
+			logger.info(computer.getId() + " " + computer.getName() + " " + computer.getCompany_id());
 			// La particularité a noté c'est qu'on récupère l'objet : 
 			// daoFactory.getConnection() qui représente la connexion 
 			// comme ça on a pas besoin de refaire la connexion systématiquement
@@ -188,5 +190,81 @@ public class ComputerDaoImpl implements ComputerDao {
 	        }
 	        return countComputers;
 	    }
+	  
+		 public static Computer find(int id) {
+			 	Connection connexion = null;
+				PreparedStatement preparedStatement = null;
+				ResultSet resultSet = null;
+			 
+				Computer computer = null;
+				try {
+					connexion = daoFactory.getConnection();
+		            preparedStatement = connexion.prepareStatement("SELECT * FROM computer WHERE id=?;");
+					
+		            preparedStatement.setInt(1, id);
+		            resultSet = preparedStatement.executeQuery();
+		            while (resultSet.next()) {
+	                    computer = ComputerMapper.getComputer(resultSet);
+	                }		
+						
+				} catch(SQLException e) {
+					logger.error("Computer not found !");
+					e.printStackTrace();
+				}
+				
+				return computer;
+			}
+		
+		 public List<Computer> getbyName(String search) {
+			 
+			 	List<Computer> selectedComputers = new ArrayList<Computer>();
+			 
+			  	Connection connexion = null;
+				PreparedStatement preparedStatement = null;
+				ResultSet resultSet = null;
+		        
+		        try {
+		        	connexion = daoFactory.getConnection();
+		            preparedStatement = connexion.prepareStatement("SELECT * FROM computer WHERE name LIKE ?");
+		            preparedStatement.setString(1, search);
+		            resultSet = preparedStatement.executeQuery();
+		            
+		            while (resultSet.next()) {
+		            	Computer computer = ComputerMapper.getComputer(resultSet);
+		            	selectedComputers.add(computer);
+		            }
+		            
+		        } catch (SQLException e) {
+		            logger.error("error search all computers", e);
+		        }
+		        return selectedComputers;
+		 }
+		 
+		 public List<Computer> orderBy(){
+				// retourne une liste d'utilisateurs
+				List<Computer> computers = new ArrayList<Computer>();
+				Connection connexion = null;
+				Statement statement = null;
+				ResultSet resultat = null;
+				
+				try {
+					connexion = daoFactory.getConnection();
+					statement = connexion.createStatement();
+					resultat = statement.executeQuery("SELECT id, name, introduced, discontinued, company_id FROM computer ORDER BY name;");
+					
+					while (resultat.next()) {
+						
+						Computer computer = ComputerMapper.getComputer(resultat);
+						
+						//ajout les ordinateurs de ma bdd dans une liste
+						computers.add(computer);
+					}
+				} catch (SQLException e) {
+					logger.error("Error order By Computer");
+		        e.printStackTrace();
+		    }
+		    return computers;
+			} 
+		 
 	
 }

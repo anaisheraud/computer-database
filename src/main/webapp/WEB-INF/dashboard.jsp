@@ -27,7 +27,7 @@
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
-                    <form id="searchForm" action="#" method="GET" class="form-inline">
+                    <form id="searchForm" action="ListComputers" method="GET" class="form-inline">
 
                         <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" />
                         <input type="submit" id="searchsubmit" value="Filter by name"
@@ -36,12 +36,12 @@
                 </div>
                 <div class="pull-right">
                     <a class="btn btn-success" id="addComputer" href="http://localhost:8080/computer__database/ComputerAddServlet">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="http://localhost:8080/computer__database/EditComputers" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
         </div>
 
-        <form id="deleteForm" action="#" method="POST">
+        <form id="deleteForm" action="ListComputers" method="POST">
             <input type="hidden" name="selection" value="">
         </form>
 
@@ -61,7 +61,7 @@
                             </span>
                         </th>
                         <th>
-                            Computer name
+                            Computer name <a href="http://localhost:8080/computer__database/ListComputers?orderBy=true">Click OrderBy</a>
                         </th>
                         <th>
                             Introduced date
@@ -82,7 +82,7 @@
                 	 <c:forEach var="computer"  items="${ListComputers}">
                   <tr>
                         <td class="editMode">
-                            <input type="checkbox" name="cb" class="cb" value="0">
+                            <input type="checkbox" name="cb" class="cb" value="${computer.id}">
                         </td>
                         <td>
                             <a href="http://localhost:8080/computer__database/EditComputers?id=${computer.id}" onclick=""><c:out value="${computer.name}"></c:out></a>
@@ -128,9 +128,10 @@
         </div>
 
     </footer>
-<script src="../js/jquery.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/dashboard.js"></script>
+    
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/dashboard.js"></script>
 
 </body>
 </html>
