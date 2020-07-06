@@ -85,10 +85,12 @@ public class ComputerListServlet extends HttpServlet {
 		
 		System.out.println("test : " + request.getParameter("orderBy"));
 		
+		//Pas de paramètre dans l'orderBy alors il va chercher à savoir si y a une recherche
 		if(request.getParameter("orderBy") != null && !request.getParameter("orderBy").isEmpty()) {
 			System.out.println("orderBy");
 			computers = DaoFactory.getInstance().getComputerDao().orderBy();
-			
+		
+		//Si, y a pas de recherche alors on passe au else
 		} else if (request.getParameter("search") == null || request.getParameter("search").isEmpty()) {
 			System.out.println("lister");
 			computers = DaoFactory.getInstance().getComputerDao().lister();
@@ -102,6 +104,7 @@ public class ComputerListServlet extends HttpServlet {
 			String search = new String("%");
 			
 			search += request.getParameter("search");
+			//recherche contient, quelque soit les caractères avant et après il ressort le mot complet
 			search += "%";
 			request.setAttribute("search", search);
 
@@ -143,6 +146,7 @@ public class ComputerListServlet extends HttpServlet {
 			
 			List<Integer> ListId = Stream.of(id.split(","))
 					
+					//stocker les contenus sous forme de clé-valeur
 					.map(Integer::parseInt)
 					.collect(Collectors.toList());
 			
