@@ -4,8 +4,8 @@ package com.excilys.beans;
 
 public class Company {
 	
-	private int id; 
-	private String name;
+	public int id; 
+	public String name;
 	public int getId() {
 		return id;
 	}

@@ -140,21 +140,22 @@ public class ComputerListServlet extends HttpServlet {
 		
 		if(request.getParameter("selection") != null && !request.getParameter("selection").equals("")) {
 			
-			String id = request.getParameter("selection");
+			String ids = request.getParameter("selection");
 			
-			System.out.println("id :" + id);
+			System.out.println("id :" + ids);
 			
-			List<Integer> ListId = Stream.of(id.split(","))
+			List<Integer> ListId = new ArrayList<Integer>();
 					
-					//stocker les contenus sous forme de clé-valeur
-					.map(Integer::parseInt)
-					.collect(Collectors.toList());
+			//stocker les contenus sous forme de clé-valeur
+			
+			for(String id : ids.split(",")) {
+				ListId.add(Integer.parseInt(id));
+			}
 			
 			for(Integer Id : ListId) {
-				DaoFactory.getInstance().getComputerDao().delete(ComputerDaoImpl.find(Id));
-				
+				DaoFactory.getInstance().getComputerDao().delete(ComputerDaoImpl.find(Id));	
 			}
-	}
+		}
 		
 		doGet(request, response);
 	}

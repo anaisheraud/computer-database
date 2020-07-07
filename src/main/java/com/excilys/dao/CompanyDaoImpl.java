@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.beans.Company;
+import com.excilys.beans.Computer;
 import com.excilys.mappers.CompanyMapper;
 
 public class CompanyDaoImpl implements CompanyDao {
@@ -38,7 +39,7 @@ public class CompanyDaoImpl implements CompanyDao {
 		ResultSet resultat = null;
 
 		try {
-			connexion = daoFactory.getConnection();
+			connexion = daoFactory.getInstance().getConnection();
 			statement = connexion.createStatement();
 			resultat = statement.executeQuery("SELECT id, name FROM company;");
 
@@ -54,5 +55,29 @@ public class CompanyDaoImpl implements CompanyDao {
 		}
 		return companies;
 	}
+	
+	public boolean delete(int company_id) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		
+		try {	
+			connexion = daoFactory.getInstance().getConnection();
+			preparedStatement = connexion.prepareStatement
+					("DELETE FROM computer WHERE company_id = ?");
+			preparedStatement.setInt(1, company_id);		
+			preparedStatement.executeUpdate();
+			
+			preparedStatement = connexion.prepareStatement
+					("DELETE FROM company WHERE id = ?");
+			preparedStatement.setInt(1, company_id);
+			preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+					e.printStackTrace();
+					logger.error("Company isn't deleted");
+					return false;
+			}
+		return true;
+	} 
 
 }

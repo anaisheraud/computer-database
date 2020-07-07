@@ -6,6 +6,8 @@ package com.excilys.beans;
 
 import java.time.LocalDate;
 
+import services.ServiceCompany;
+
 public class Computer {
 	
 	private int id; 
@@ -14,6 +16,9 @@ public class Computer {
 	private LocalDate introduced; //date 
 	private LocalDate discontinued;
 	private int company_id;
+	
+	//Paramètre company
+	private Company company;
 	
 	public int getId() {
 		return id;
@@ -60,15 +65,16 @@ public class Computer {
 		this.introduced = introduced;
 		this.discontinued = discontinued;
 		this.company_id = company_id;
+		this.company_id = company_id;
 	}
 	public Computer() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
-				+ ", company_id=" + company_id + " + \n]";
+				+ ", company_id=" + company_id + " \n]";
 	}
-
+	
 }

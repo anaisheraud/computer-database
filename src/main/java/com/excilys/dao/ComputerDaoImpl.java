@@ -41,7 +41,7 @@ public class ComputerDaoImpl implements ComputerDao {
 		ResultSet resultat = null;
 		
 		try {
-			connexion = daoFactory.getConnection();
+			connexion = daoFactory.getInstance().getConnection();
 			statement = connexion.createStatement();
 			resultat = statement.executeQuery("SELECT id, name, introduced, discontinued, company_id FROM computer;");
 			
@@ -67,7 +67,7 @@ public class ComputerDaoImpl implements ComputerDao {
 		ResultSet resultat = null;
 		
 		try {
-			connexion = daoFactory.getConnection();
+			connexion = daoFactory.getInstance().getConnection();
 			preparedstatement = connexion.prepareStatement("SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id >= ? AND id <= ?;");
 			preparedstatement.setInt(1, entier1 + lenPage);
 			preparedstatement.setInt(2, entier2 + lenPage);
@@ -100,7 +100,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			// daoFactory.getConnection() qui représente la connexion 
 			// comme ça on a pas besoin de refaire la connexion systématiquement
 			// et on récupère la connexion qui a été fait en amont en un factory		
-			connexion = daoFactory.getConnection();
+			connexion = daoFactory.getInstance().getConnection();
 			preparedStatement = connexion.prepareStatement
 					("INSERT INTO computer(id, name, introduced, discontinued, company_id) VALUES (?,?,?,?,?);");
 			preparedStatement.setInt(1, computer.getId());
@@ -127,7 +127,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			// daoFactory.getConnection() qui représente la connexion 
 			// comme ça on a pas besoin de refaire la connexion systématiquement
 			// et on récupère la connexion qui a été fait en amont en un factory		
-			connexion = daoFactory.getConnection();
+			connexion = daoFactory.getInstance().getConnection();
 			preparedStatement = connexion.prepareStatement
 					("UPDATE computer SET id = ?, name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?;");
 			preparedStatement.setInt(1, computer.getId());
@@ -155,7 +155,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			// daoFactory.getConnection() qui représente la connexion 
 			// comme ça on a pas besoin de refaire la connexion systématiquement
 			// et on récupère la connexion qui a été fait en amont en un factory		
-			connexion = daoFactory.getConnection();
+			connexion = daoFactory.getInstance().getConnection();
 			preparedStatement = connexion.prepareStatement
 					("DELETE FROM computer WHERE id = ?");
 			preparedStatement.setInt(1, computer.getId());
@@ -176,7 +176,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			int countComputers = 0;
 	        
 	        try {
-	        	connexion = daoFactory.getConnection();
+	        	connexion = daoFactory.getInstance().getConnection();
 	            preparedStatement = connexion.prepareStatement("SELECT COUNT(id) as total FROM computer;"); 
 	            System.out.println(preparedStatement);
 	           
@@ -198,7 +198,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			 
 				Computer computer = null;
 				try {
-					connexion = daoFactory.getConnection();
+					connexion = daoFactory.getInstance().getConnection();
 		            preparedStatement = connexion.prepareStatement("SELECT * FROM computer WHERE id=?;");
 					
 		            preparedStatement.setInt(1, id);
@@ -224,7 +224,7 @@ public class ComputerDaoImpl implements ComputerDao {
 				ResultSet resultSet = null;
 		        
 		        try {
-		        	connexion = daoFactory.getConnection();
+		        	connexion = daoFactory.getInstance().getConnection();
 		            preparedStatement = connexion.prepareStatement("SELECT * FROM computer WHERE name LIKE ?");
 		            preparedStatement.setString(1, search);
 		            resultSet = preparedStatement.executeQuery();
@@ -248,7 +248,7 @@ public class ComputerDaoImpl implements ComputerDao {
 				ResultSet resultat = null;
 				
 				try {
-					connexion = daoFactory.getConnection();
+					connexion = daoFactory.getInstance().getConnection();
 					statement = connexion.createStatement();
 					resultat = statement.executeQuery("SELECT id, name, introduced, discontinued, company_id FROM computer ORDER BY name;");
 					

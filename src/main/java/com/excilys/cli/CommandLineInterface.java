@@ -53,6 +53,10 @@ public class CommandLineInterface {
 				/* case ("ListCt"):
 					ListComputers10();
 					break; */
+				
+				case ("ListCp"):
+					ListComputers();
+					break;
 					
 				case ("ListCn"):
 					ListCompanies();
@@ -70,8 +74,12 @@ public class CommandLineInterface {
 					UpdateComputer();
 					break;
 					
-				case ("Delete"):
+				case ("DeleteCp"):
 					DeleteComputer();
+					break;
+					
+				case ("DeleteCn"):
+					DeleteCompany();
 					break;
 					
 				case ("Adios"):
@@ -139,6 +147,14 @@ public class CommandLineInterface {
 			 }
 				 		 	 
 		} */
+		
+	//Affiche la liste de toutes les ordinateurs
+		private static void ListComputers() {
+			// TODO Auto-generated method stub
+			
+			 System.out.println("List computers");
+			 ServiceComputer.lister();
+		}
 
 	//Affiche la liste de toutes les compagnies 
 		private static void ListCompanies() {
@@ -181,6 +197,16 @@ public class CommandLineInterface {
 	
 		 System.out.println("Delete a computer");
 		 ServiceComputer.delete();
+		 
+	}
+	
+
+	//Supprime une compagnie 
+	private static void DeleteCompany() {
+		// TODO Auto-generated method stub
+	
+		 System.out.println("Delete a company");
+		 ServiceCompany.delete();
 		 
 	}
 			
