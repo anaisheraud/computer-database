@@ -9,6 +9,9 @@ import java.util.List;
 
 import com.excilys.beans.Computer;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface ComputerDao {
 	//Ajoute de l'ordinateur et lister les suivants
 	List<Computer> listerpage(int entier1, int entier2, int lenPage);

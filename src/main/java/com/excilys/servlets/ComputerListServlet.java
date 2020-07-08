@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,13 +15,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.beans.Computer;
 import com.excilys.dao.ComputerDao;
 import com.excilys.dao.ComputerDaoImpl;
 import com.excilys.dao.DaoFactory;
-
-import services.ServiceComputer;
+import com.excilys.services.ServiceCompany;
+import com.excilys.services.ServiceComputer;
 
 /**
  * Servlet implementation class ComputerListServlet
@@ -30,6 +33,19 @@ import services.ServiceComputer;
  * Une Servlet est une classe java qui hérite de HttpServlet*/
 public class ComputerListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	
+	@Autowired
+	private ServiceComputer serviceComputer;
+	
+	@Autowired
+	private ServiceCompany serviceCompany;
+
+	
+	public void init(ServletConfig config) throws ServletException { 
+		super.init(config); 
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this); 
+	}
 	
 	public int lenPage;
 	public int page;
@@ -66,10 +82,10 @@ public class ComputerListServlet extends HttpServlet {
 		//indique ou la jsp se trouve
 		//transmet l'objet requête et l'objet réponse à la jsp
 	
-		DaoFactory daofactory = DaoFactory.getInstance();
-		List<Computer> computers = new ArrayList<Computer>();
+		//DaoFactory daofactory = DaoFactory.getInstance();
+		List<Computer> computers;
 		
-		int countComputers = ComputerDaoImpl.getAll();
+		int countComputers = serviceComputer.getAll();
 		
 		///computers =  daofactory.getComputerDao().lister();
 		
@@ -88,12 +104,12 @@ public class ComputerListServlet extends HttpServlet {
 		//Pas de paramètre dans l'orderBy alors il va chercher à savoir si y a une recherche
 		if(request.getParameter("orderBy") != null && !request.getParameter("orderBy").isEmpty()) {
 			System.out.println("orderBy");
-			computers = DaoFactory.getInstance().getComputerDao().orderBy();
+			computers = serviceComputer.orderBy();
 		
 		//Si, y a pas de recherche alors on passe au else
 		} else if (request.getParameter("search") == null || request.getParameter("search").isEmpty()) {
 			System.out.println("lister");
-			computers = DaoFactory.getInstance().getComputerDao().lister();
+			computers = serviceComputer.lister();
 			
 		request.getParameter("ListComputers");
 		request.setAttribute("ListComputers", computers);
@@ -108,7 +124,7 @@ public class ComputerListServlet extends HttpServlet {
 			search += "%";
 			request.setAttribute("search", search);
 
-			computers = DaoFactory.getInstance().getComputerDao().getbyName(search);
+			computers = serviceComputer.getByName(search);
 			
 			request.getParameter("ListComputers");
 			request.setAttribute("ListComputers", computers);
@@ -153,7 +169,7 @@ public class ComputerListServlet extends HttpServlet {
 			}
 			
 			for(Integer Id : ListId) {
-				DaoFactory.getInstance().getComputerDao().delete(ComputerDaoImpl.find(Id));	
+				serviceComputer.delete(serviceComputer.find(Id));	
 			}
 		}
 		

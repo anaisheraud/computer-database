@@ -11,7 +11,9 @@ import java.sql.SQLException;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DaoFactory {
 	
 	/* private static final String url = "jdbc:mysql://localhost/computer-database-db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
@@ -20,26 +22,24 @@ public class DaoFactory {
 	
 	*/
 	
-    private static HikariDataSource ds;
+    private HikariDataSource ds;
     
-    private static HikariConfig config;
+    private HikariConfig config;
 
 	public DaoFactory(){
-		
+		config = new HikariConfig("/hikari.properties");
+		ds = new HikariDataSource(config);
 	}
 
 	//on appelle une méthode statique getInstance qui charge 
 	//le driveur idbc effectue une connexion à la base de données:
 	
 	//c'est ici que se fait la connexion
-	public static DaoFactory getInstance() {
-		config = new HikariConfig("/hikari.properties");
-		ds = new HikariDataSource(config);
-		DaoFactory instance = new DaoFactory();
-		return instance;
-	}
+//	public DaoFactory getInstance() {
+//	
+//	}
 	
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         return ds.getConnection();
     }
 	/*

@@ -6,7 +6,7 @@ package com.excilys.beans;
 
 import java.time.LocalDate;
 
-import services.ServiceCompany;
+import com.excilys.services.ServiceCompany;
 
 public class Computer {
 	

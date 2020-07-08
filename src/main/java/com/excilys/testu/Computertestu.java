@@ -14,24 +14,24 @@ public class Computertestu {
 	@Test 
 	public void TestGetName(){
 	
-		DaoFactory daofactory = DaoFactory.getInstance();
+		DaoFactory daofactory = new DaoFactory();
 		
 		Computer computer = new Computer();
 		
 		computer.setName("CM-5e");
 		
-		assertTrue("GetName fail !", computer.getName().equals(daofactory.getComputerDao().lister().get(2).getName()));
+		assertTrue("GetName fail !", computer.getName().equals(daofactory.getComputerDao().lister().get(3).getName()));
 		
 	}
 	
 	@Test 
 	public void TestGetDiscontinued() {
 		
-		DaoFactory daofactory = DaoFactory.getInstance();
+		DaoFactory daofactory = new DaoFactory();
 		
 		LocalDate datea = LocalDate.of(1984, 04, 01);
 
-		assertEquals("Date fail !",datea,daofactory.getComputerDao().lister().get(10).getDiscontinued());
+		assertEquals("Date fail !",datea,daofactory.getComputerDao().lister().get(11).getDiscontinued());
 		
 		/* une autre date localdate, et le double, bus*/
 	}

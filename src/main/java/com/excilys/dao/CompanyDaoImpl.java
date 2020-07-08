@@ -11,10 +11,15 @@ import com.excilys.beans.Company;
 import com.excilys.beans.Computer;
 import com.excilys.mappers.CompanyMapper;
 
-public class CompanyDaoImpl implements CompanyDao {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+@Repository
+public class CompanyDaoImpl implements CompanyDao {
+	
 	// quand on instancie les objets, on remarque qu'on récupère
 	// la factory et nous donne accès directement à l'objet connecté
+	@Autowired
 	private DaoFactory daoFactory;
 	private Logger logger = LoggerFactory.getLogger(CompanyDaoImpl.class);
 
@@ -39,7 +44,7 @@ public class CompanyDaoImpl implements CompanyDao {
 		ResultSet resultat = null;
 
 		try {
-			connexion = daoFactory.getInstance().getConnection();
+			connexion = daoFactory.getConnection();
 			statement = connexion.createStatement();
 			resultat = statement.executeQuery("SELECT id, name FROM company;");
 
@@ -61,7 +66,7 @@ public class CompanyDaoImpl implements CompanyDao {
 		PreparedStatement preparedStatement = null;
 		
 		try {	
-			connexion = daoFactory.getInstance().getConnection();
+			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement
 					("DELETE FROM computer WHERE company_id = ?");
 			preparedStatement.setInt(1, company_id);		

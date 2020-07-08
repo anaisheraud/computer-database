@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +14,8 @@ import javax.xml.validation.Validator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.beans.Company;
 import com.excilys.beans.Computer;
@@ -23,10 +26,11 @@ import com.excilys.dao.DaoFactory;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mappersDTO.ComputerMapperDTO;
+import com.excilys.services.ServiceCompany;
+import com.excilys.services.ServiceComputer;
 import com.excilys.validator.Validators;
 
 import jdk.internal.jline.internal.Log;
-import services.ServiceComputer;
 
 /**
  * Servlet implementation class ComputerAddServlet
@@ -34,6 +38,18 @@ import services.ServiceComputer;
 @WebServlet("/EditComputers")
 public class ComputerEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	
+	@Autowired
+	private ServiceComputer serviceComputer;
+	
+	@Autowired
+	private ServiceCompany serviceCompany;
+	
+	public void init(ServletConfig config) throws ServletException { 
+		super.init(config); 
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this); 
+	}
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -48,14 +64,14 @@ public class ComputerEditServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		DaoFactory daofactory = DaoFactory.getInstance();
+		//DaoFactory daofactory = DaoFactory.getInstance();
 		
 		request.getParameter("id");
 		request.setAttribute("id", request.getParameter("id"));
 		
 		List<Company> companies = new ArrayList<Company>();
 		
-		companies =  daofactory.getCompanyDao().lister();
+		companies =  serviceCompany.lister();
 		
 		request.getParameter("Company");
 		request.setAttribute("Company", companies);
@@ -70,7 +86,7 @@ public class ComputerEditServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		DaoFactory daofactory = DaoFactory.getInstance();
+		//DaoFactory daofactory = DaoFactory.getInstance();
 		
 		ComputerDTO computerdto = new ComputerDTO();
 		Computer computer = new Computer();
@@ -97,7 +113,7 @@ public class ComputerEditServlet extends HttpServlet {
 			
 			//System.out.println(computer);
 			
-			daofactory.getComputerDao().update(computer);
+			serviceComputer.update(computer);
 			
 			logger.info("tout est ok" + "id = " + computer.getId());
 			

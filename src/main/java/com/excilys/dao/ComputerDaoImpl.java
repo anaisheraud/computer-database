@@ -16,12 +16,17 @@ import com.excilys.mappers.CompanyMapper;
 import com.excilys.mappers.ComputerMapper;
 import com.excilys.mappers.DateMapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class ComputerDaoImpl implements ComputerDao {
 	
 	// quand on instancie les objets, on remarque qu'on récupère 
 	// la factory et nous donne accès directement à l'objet connecté
-	private static DaoFactory daoFactory;
-	private static Logger logger = LoggerFactory.getLogger(ComputerDaoImpl.class);
+	@Autowired
+	private DaoFactory daoFactory;
+	private Logger logger = LoggerFactory.getLogger(ComputerDaoImpl.class);
 
 	public ComputerDaoImpl(DaoFactory daoFactory){
 		this.daoFactory = daoFactory;
@@ -41,7 +46,7 @@ public class ComputerDaoImpl implements ComputerDao {
 		ResultSet resultat = null;
 		
 		try {
-			connexion = daoFactory.getInstance().getConnection();
+			connexion = daoFactory.getConnection();
 			statement = connexion.createStatement();
 			resultat = statement.executeQuery("SELECT id, name, introduced, discontinued, company_id FROM computer;");
 			
@@ -67,7 +72,7 @@ public class ComputerDaoImpl implements ComputerDao {
 		ResultSet resultat = null;
 		
 		try {
-			connexion = daoFactory.getInstance().getConnection();
+			connexion = daoFactory.getConnection();
 			preparedstatement = connexion.prepareStatement("SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id >= ? AND id <= ?;");
 			preparedstatement.setInt(1, entier1 + lenPage);
 			preparedstatement.setInt(2, entier2 + lenPage);
@@ -100,7 +105,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			// daoFactory.getConnection() qui représente la connexion 
 			// comme ça on a pas besoin de refaire la connexion systématiquement
 			// et on récupère la connexion qui a été fait en amont en un factory		
-			connexion = daoFactory.getInstance().getConnection();
+			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement
 					("INSERT INTO computer(id, name, introduced, discontinued, company_id) VALUES (?,?,?,?,?);");
 			preparedStatement.setInt(1, computer.getId());
@@ -127,7 +132,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			// daoFactory.getConnection() qui représente la connexion 
 			// comme ça on a pas besoin de refaire la connexion systématiquement
 			// et on récupère la connexion qui a été fait en amont en un factory		
-			connexion = daoFactory.getInstance().getConnection();
+			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement
 					("UPDATE computer SET id = ?, name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?;");
 			preparedStatement.setInt(1, computer.getId());
@@ -155,7 +160,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			// daoFactory.getConnection() qui représente la connexion 
 			// comme ça on a pas besoin de refaire la connexion systématiquement
 			// et on récupère la connexion qui a été fait en amont en un factory		
-			connexion = daoFactory.getInstance().getConnection();
+			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement
 					("DELETE FROM computer WHERE id = ?");
 			preparedStatement.setInt(1, computer.getId());
@@ -169,14 +174,14 @@ public class ComputerDaoImpl implements ComputerDao {
 		return true;
 	}
 	
-	  public static int getAll() {
+	  public int getAll() {
 		  	Connection connexion = null;
 			PreparedStatement preparedStatement = null;
 		  
 			int countComputers = 0;
 	        
 	        try {
-	        	connexion = daoFactory.getInstance().getConnection();
+	        	connexion = daoFactory.getConnection();
 	            preparedStatement = connexion.prepareStatement("SELECT COUNT(id) as total FROM computer;"); 
 	            System.out.println(preparedStatement);
 	           
@@ -191,14 +196,14 @@ public class ComputerDaoImpl implements ComputerDao {
 	        return countComputers;
 	    }
 	  
-		 public static Computer find(int id) {
+		 public Computer find(int id) {
 			 	Connection connexion = null;
 				PreparedStatement preparedStatement = null;
 				ResultSet resultSet = null;
 			 
 				Computer computer = null;
 				try {
-					connexion = daoFactory.getInstance().getConnection();
+					connexion = daoFactory.getConnection();
 		            preparedStatement = connexion.prepareStatement("SELECT * FROM computer WHERE id=?;");
 					
 		            preparedStatement.setInt(1, id);
@@ -224,7 +229,7 @@ public class ComputerDaoImpl implements ComputerDao {
 				ResultSet resultSet = null;
 		        
 		        try {
-		        	connexion = daoFactory.getInstance().getConnection();
+		        	connexion = daoFactory.getConnection();
 		            preparedStatement = connexion.prepareStatement("SELECT * FROM computer WHERE name LIKE ?");
 		            preparedStatement.setString(1, search);
 		            resultSet = preparedStatement.executeQuery();
@@ -248,7 +253,7 @@ public class ComputerDaoImpl implements ComputerDao {
 				ResultSet resultat = null;
 				
 				try {
-					connexion = daoFactory.getInstance().getConnection();
+					connexion = daoFactory.getConnection();
 					statement = connexion.createStatement();
 					resultat = statement.executeQuery("SELECT id, name, introduced, discontinued, company_id FROM computer ORDER BY name;");
 					

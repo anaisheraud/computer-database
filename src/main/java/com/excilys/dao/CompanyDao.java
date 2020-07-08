@@ -10,6 +10,9 @@ import java.util.List;
 import com.excilys.beans.Company;
 import com.excilys.beans.Computer;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface CompanyDao {
 	//Ajoute une compagnie et liste les compagnies
 	//
