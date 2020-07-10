@@ -13,13 +13,9 @@ public class DateMappertestu {
 	
 	@Test
 	public void TestlocalDateTosqlDate() {
-		
 		LocalDate localdate = null;
-		
 		Date datesql = null;
-		
 		assertEquals("Not date null !", datesql,DateMapper.localDateTosqlDate(localdate));
-		
 	}
 
 }

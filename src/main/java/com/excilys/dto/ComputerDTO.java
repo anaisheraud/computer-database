@@ -1,15 +1,10 @@
 package com.excilys.dto;
-/*
- * 
- * Fichier assez simple qui contient des gets et sets
- */
 
 public class ComputerDTO {
 	
 	private String id; 
 	private String name;
-	//forcer localdate
-	private String introduced; //date 
+	private String introduced;  
 	private String discontinued;
 	private String company_id;
 	

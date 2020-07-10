@@ -29,8 +29,11 @@ import com.excilys.services.ServiceComputer;
  * Servlet implementation class ComputerListServlet
  */
 @WebServlet("/ListComputers")
-/* La classe Servlet étend une classe HttpServlet 
- * Une Servlet est une classe java qui hérite de HttpServlet*/
+/**
+ * La classe Servlet étend une classe HttpServlet
+ * Une Servlet est une classe java qui hérite de HttpServlet
+ */
+
 public class ComputerListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -51,7 +54,6 @@ public class ComputerListServlet extends HttpServlet {
 	public int page;
 	public int maxPage;
 	
-	//Elle possède un constructeur
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -60,35 +62,17 @@ public class ComputerListServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-    //Elle possède des méthodes dont elle irite 
-    //Deux principales méthodes ici :
-    //Avec Http y a plusieurs modes de communication 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     
-    //la requête http nous arrive sous la forme d'un objet request et nous devons renvoyer un objet response
-    //l'objet request indique les paramètres qu'a pu envoyé l'utilisateur ou encore le nom du navigateur
-    //l'objet response lui est l'objet construit afin de renvoyer une page web/html
-    
-    //Quand le visiteur va lire une page, il cherche à récupérer une page web, donc une requête get
-    //charger la page 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		//méthode setContentType pour indiquer qu'on renvoie du HTML et utilisation de l'encodage UTF-8
-		//WEB-INF masque aux visiteurs tout ce qui est à l'intérieur
-		
-		//indique ou la jsp se trouve
-		//transmet l'objet requête et l'objet réponse à la jsp
 	
-		//DaoFactory daofactory = DaoFactory.getInstance();
 		List<Computer> computers;
 		
 		int countComputers = serviceComputer.getAll();
-		
-		///computers =  daofactory.getComputerDao().lister();
-		
+			
 		if(request.getParameter("lenPage") != null)
 		{
 			lenPage = Integer.parseInt(request.getParameter("lenPage"));
@@ -98,15 +82,11 @@ public class ComputerListServlet extends HttpServlet {
 		{
 			lenPage = 10;
 		}
-		
-		System.out.println("test : " + request.getParameter("orderBy"));
-		
-		//Pas de paramètre dans l'orderBy alors il va chercher à savoir si y a une recherche
+
 		if(request.getParameter("orderBy") != null && !request.getParameter("orderBy").isEmpty()) {
 			System.out.println("orderBy");
 			computers = serviceComputer.orderBy();
 		
-		//Si, y a pas de recherche alors on passe au else
 		} else if (request.getParameter("search") == null || request.getParameter("search").isEmpty()) {
 			System.out.println("lister");
 			computers = serviceComputer.lister();
@@ -120,7 +100,10 @@ public class ComputerListServlet extends HttpServlet {
 			String search = new String("%");
 			
 			search += request.getParameter("search");
-			//recherche contient, quelque soit les caractères avant et après il ressort le mot complet
+			
+			/**
+			 * % recherche contient, quelque soit les caractères avant et après il ressort le mot complet
+			 */
 			search += "%";
 			request.setAttribute("search", search);
 
@@ -134,20 +117,15 @@ public class ComputerListServlet extends HttpServlet {
 			
 		// en attendant... computers =  daofactory.getComputerDao().listerpage(page, page+lenPage, lenPage);
 		
-		System.out.println(lenPage);
-		
 		request.getParameter("ListComputers");
 		request.setAttribute("ListComputers", computers);
 		request.setAttribute("countComputers", countComputers);
 		request.setAttribute("page", page);
 		request.setAttribute("lenPage", lenPage);
-		//request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
 		this.getServletContext().getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
 		
 	}
 	
-	//Quand il envoie des données de formulaire, il souhaite faire un post
-	//poster des informations
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -162,8 +140,9 @@ public class ComputerListServlet extends HttpServlet {
 			
 			List<Integer> ListId = new ArrayList<Integer>();
 					
-			//stocker les contenus sous forme de clé-valeur
-			
+			/**
+			 * Stocker les contenus sous forme de clé-valeur
+			 */
 			for(String id : ids.split(",")) {
 				ListId.add(Integer.parseInt(id));
 			}
@@ -171,6 +150,7 @@ public class ComputerListServlet extends HttpServlet {
 			for(Integer Id : ListId) {
 				serviceComputer.delete(serviceComputer.find(Id));	
 			}
+			
 		}
 		
 		doGet(request, response);

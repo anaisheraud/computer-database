@@ -4,6 +4,9 @@ import com.excilys.beans.Computer;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mappers.DateMapper;
 
+/**
+ * Convertir le résultat de la bdd pour chaque ordis en objet
+ */
 public class ComputerMapperDTO {
 	
 	public static Computer ComputerDtoToComputer(ComputerDTO computerDto) {

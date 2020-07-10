@@ -62,7 +62,6 @@ public class ComputerAddServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//DaoFactory daofactory = DaoFactory.getInstance();
 		
 		List<Company> companies;
 		
@@ -80,8 +79,6 @@ public class ComputerAddServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		//DaoFactory daofactory = DaoFactory.getInstance();
 		
 		ComputerDTO computerdto = new ComputerDTO();
 		Computer computer;
@@ -107,8 +104,6 @@ public class ComputerAddServlet extends HttpServlet {
 			request.setAttribute("ErrorName", "ERROR !!! This field can't be empty !");
 			e.printStackTrace();
 		}
-	
-		//System.out.println(computer);
 	
 		doGet(request, response);
 	}

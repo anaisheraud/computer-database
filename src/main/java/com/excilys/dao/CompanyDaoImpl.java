@@ -17,8 +17,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CompanyDaoImpl implements CompanyDao {
 	
-	// quand on instancie les objets, on remarque qu'on récupère
-	// la factory et nous donne accès directement à l'objet connecté
+	/**
+	 * Accès direct à l'objet connecté 
+	 * Récupération de la factory
+	 */
+
 	@Autowired
 	private DaoFactory daoFactory;
 	private Logger logger = LoggerFactory.getLogger(CompanyDaoImpl.class);
@@ -27,17 +30,15 @@ public class CompanyDaoImpl implements CompanyDao {
 		this.daoFactory = daoFactory;
 	}
 
-	// et ensuite on retrouve la méthode juste lister pour company
-	// qui en fait implémente l'interface
-	// et qu'on retrouve ainsi nos requête sql :
-	// insert into, select, from..
+	/**
+	 * Requêtes SQL, méthodes à implémenter
+	 */
 
-	//
 	@Override
-	// retourne void
-
+	/**
+	 * @return Une liste de compagnies
+	 */
 	public List<Company> lister() {
-		// retourne une liste d'utilisateurs
 		List<Company> companies = new ArrayList<Company>();
 		Connection connexion = null;
 		Statement statement = null;
@@ -61,6 +62,9 @@ public class CompanyDaoImpl implements CompanyDao {
 		return companies;
 	}
 	
+	/**
+	 * Supprime une compagnie
+	 */
 	public boolean delete(int company_id) {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;

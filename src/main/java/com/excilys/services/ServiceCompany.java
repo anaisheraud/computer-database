@@ -17,19 +17,21 @@ public class ServiceCompany {
 	 @Autowired
 	 private CompanyDaoImpl CompanyDao;
 	 
-	 
-	 //private DaoFactory daoconnexion = new DaoFactory(); 
-	 
+	 /**
+	  * @return ListCompanies
+	  */
 	 public List<Company> lister(){
 		 List<Company> allCompany = CompanyDao.lister();
 		 System.out.println(allCompany);
 		 return allCompany;
 	 }
 	 
-	 public void delete(int id) {
-		 
-		 CompanyDao.delete(id);
-		 
+	 /**
+	  * Suprimer la compagnie
+	  * @param id
+	  */
+	 public void delete(int id) {	 
+		 CompanyDao.delete(id); 
 	 }
 	 
 }

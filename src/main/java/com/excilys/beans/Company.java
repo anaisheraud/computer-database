@@ -1,5 +1,3 @@
-/* Fichier assez simple qui contient des gets et sets */
-
 package com.excilys.beans;
 
 public class Company {

@@ -64,7 +64,6 @@ public class ComputerEditServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//DaoFactory daofactory = DaoFactory.getInstance();
 		
 		request.getParameter("id");
 		request.setAttribute("id", request.getParameter("id"));
@@ -85,9 +84,7 @@ public class ComputerEditServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		//DaoFactory daofactory = DaoFactory.getInstance();
-		
+				
 		ComputerDTO computerdto = new ComputerDTO();
 		Computer computer = new Computer();
 		

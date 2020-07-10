@@ -4,8 +4,11 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-
 public class DateMapper {
+	
+/**
+ * Convertir les dates	
+ */
 	
 	public static final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd"); 
 	

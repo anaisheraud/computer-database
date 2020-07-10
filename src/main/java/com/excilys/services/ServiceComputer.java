@@ -14,80 +14,87 @@ public class ServiceComputer {
 	 @Autowired
 	 private ComputerDaoImpl ComputerDao;
 	
-	 //spring :
-	 //private DaoFactory daoconnexion = new DaoFactory(); 
-	 
-	 /* 
-	  * Création des méthodes computer 
-	  * 
-	  * */
-	 
-	 public List<Computer> listerpage(int entier1, int entier2, int lenPage) {
-		 
+	 /**
+	  * Liste des ordinateurs par page
+	  * @param entier1
+	  * @param entier2
+	  * @param lenPage
+	  * @return ListComputers
+	  */
+	 public List<Computer> listerpage(int entier1, int entier2, int lenPage) { 
 		 List<Computer> allComputer = ComputerDao.listerpage(entier1, entier2, lenPage);
-		 return allComputer;
-		 
+		 return allComputer;	 
 	 }
 	 
-	 public List<Computer> lister() {
-		 
+	 /**
+	  * @return ListComputers
+	  */
+	 public List<Computer> lister() {	 
 		 List<Computer> allComputer = ComputerDao.lister();
-		 return allComputer;
-		 
+		 return allComputer; 
 	 }
 	 
-	 public Computer showdetails(int id) { 
-		 
-		 return ComputerDao.lister().get(id-1);
-		 
+	 /**
+	  * @param id
+	  * @return computer
+	  */
+	 public Computer showdetails(int id) {  
+		 return ComputerDao.lister().get(id-1); 
 	 }
 	 
-	 public void create(Computer computer) {
-				
-		 ComputerDao.ajouter(computer);
-		 
-		 System.out.println("It's ok ! Computer is created ");
-		 
+	 /**
+	  * Crée un ordinateur
+	  * @param computer
+	  */
+	 public void create(Computer computer) {		
+		 ComputerDao.ajouter(computer);	 
 	 }
 	 
-	 public void update(Computer computer) {
-		 		 
-		 ComputerDao.update(computer);
-		 
+	 /**
+	  * Modifie un ordinateur
+	  * @param computer
+	  */
+	 public void update(Computer computer) { 		 
+		 ComputerDao.update(computer); 
 	 }
 	 
+	 /**
+	  * Supprime un ordinateur
+	  * @param computer
+	  */
 	 public void delete(Computer computer) {
-		 
-		 computer.setId(computer.getId());
-		 
+		 computer.setId(computer.getId()); 
 		 ComputerDao.delete(computer);
-		 
-		 System.out.println("It's ok ! Computer is delete ");
-		 
 	 }
 	 
+	 /** 
+	  * @return le nombre d'ordinateurs de la bdd
+	  */
 	 public int getAll() {
-		 
 		 return ComputerDao.getAll();
-		 
 	 }
 	 
+	 /**
+	  * @param id
+	  * @return un ordinateur dans la bdd
+	  */
 	 public Computer find(int id) {
-		 
 		 return ComputerDao.find(id);
-		 
 	 }
 	 
-	 public List<Computer> getByName(String search) {
-		 
-		 return ComputerDao.getbyName(search);
-		 
+	 /**
+	  * @param search
+	  * @return un ordinateur avec son nom dans la bdd
+	  */
+	 public List<Computer> getByName(String search) { 
+		 return ComputerDao.getbyName(search); 
 	 }
 	 
-	 public List<Computer> orderBy() {
-		 
-		 return ComputerDao.orderBy();
-		 
+	 /**
+	  * @return ListComputers ordonnés
+	  */
+	 public List<Computer> orderBy() { 
+		 return ComputerDao.orderBy();	 
 	 }
 	 
 }

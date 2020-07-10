@@ -1,8 +1,4 @@
 package com.excilys.beans;
-/*
- * 
- * Fichier assez simple qui contient des gets et sets
- */
 
 import java.time.LocalDate;
 
@@ -12,12 +8,10 @@ public class Computer {
 	
 	private int id; 
 	private String name;
-	//mettre en localdate
-	private LocalDate introduced; //date 
+	private LocalDate introduced;
 	private LocalDate discontinued;
 	private int company_id;
 	
-	//Paramètre company
 	private Company company;
 	
 	public int getId() {

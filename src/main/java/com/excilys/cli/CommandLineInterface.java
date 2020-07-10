@@ -1,5 +1,3 @@
-/* Point d'entrée dans l'application */
-
 package com.excilys.cli;
 
 import java.util.Scanner;
@@ -16,6 +14,11 @@ import com.excilys.services.ServiceCompany;
 import com.excilys.services.ServiceComputer;
 import com.excilys.spring.config;
 
+/**
+ * Point d'entrée d'application
+ * @author heraud
+ *
+ */
 public class CommandLineInterface {
 	
 	ApplicationContext context = new AnnotationConfigApplicationContext(config.class);
@@ -26,7 +29,9 @@ public class CommandLineInterface {
 	private static Scanner scanner = new Scanner(System.in);
 	private static Logger logger = LoggerFactory.getLogger(ComputerDaoImpl.class);
 
-	// Affiche les caractéristiques différentes pour le client
+	/**
+	 * Caractéristiques différentes pour le client
+	 */
 	public void Features() {
 
 		System.out.println("Features? : ");
@@ -42,8 +47,6 @@ public class CommandLineInterface {
 
 	}
 
-	// Au lancement du programme, le client va rentrer un chiffre au clavier
-	// Ci-dessous
 	public void select() {
 
 		logger.info("computer_database");
@@ -150,15 +153,20 @@ public class CommandLineInterface {
 	 * 
 	 * }
 	 */
-
-	// Affiche la liste de toutes les ordinateurs
+	
+	/**
+	 * Affiche la liste de toutes les ordinateurs
+	 * @return 
+	 */
 	private void listComputers() {
 		// TODO Auto-generated method stub
 
 		System.out.println("List computers" + "/n" + serviceComputer.lister());
 	}
-
-	// Affiche la liste de toutes les compagnies
+	
+	/**
+	 * Affiche la liste de toutes les compagnies
+	 */
 	private void listCompanies() {
 		// TODO Auto-generated method stub
 
@@ -166,7 +174,9 @@ public class CommandLineInterface {
 
 	}
 
-	// Affiche les détails d'un ordinateur
+	/**
+	 * Affiche les détails d'un ordinateur
+	 */
 	private void showComputerdetails() {
 		// TODO Auto-generated method stub
 
@@ -179,7 +189,9 @@ public class CommandLineInterface {
 
 	}
 
-	// Créer un ordinateur
+	/**
+	 * Créer un ordinateur
+	 */
 	private void createComputer() {
 		// TODO Auto-generated method stub
 
@@ -219,7 +231,9 @@ public class CommandLineInterface {
 
 	}
 
-	// Modifie un ordinateur
+	/**
+	 * Modifie un ordinateur
+	 */
 	private void updateComputer() {
 		// TODO Auto-generated method stub
 
@@ -260,7 +274,9 @@ public class CommandLineInterface {
 
 	}
 
-	// Supprime un ordinateur
+	/**
+	 * Supprime un ordinateur
+	 */
 	private void deleteComputer() {
 		// TODO Auto-generated method stub
 
@@ -276,7 +292,9 @@ public class CommandLineInterface {
 
 	}
 
-	// Supprime une compagnie
+	/**
+	 * Supprime une compagnie
+	 */
 	private void deleteCompany() {
 		// TODO Auto-generated method stub
 		
