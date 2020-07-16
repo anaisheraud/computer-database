@@ -45,4 +45,11 @@ public class DaoFactory {
 		return new CompanyDaoImpl(this);
 	}
 	
+	/**
+	 * @return ds
+	 */
+	public HikariDataSource getDs() {
+		return ds;
+	}
+	
 }

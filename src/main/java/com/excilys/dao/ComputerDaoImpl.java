@@ -14,6 +14,12 @@ import com.excilys.mappers.ComputerMapper;
 import com.excilys.mappers.DateMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -39,83 +45,53 @@ public class ComputerDaoImpl implements ComputerDao {
 	 * @return Une liste d'ordinateurs
 	 */
 	public List<Computer> lister() {
-
-		List<Computer> computers = new ArrayList<Computer>();
-		Connection connexion = null;
-		Statement statement = null;
-		ResultSet resultat = null;
-
-		try {
-			connexion = daoFactory.getConnection();
-			statement = connexion.createStatement();
-			resultat = statement.executeQuery("SELECT id, name, introduced, discontinued, company_id FROM computer;");
-
-			while (resultat.next()) {
-
-				Computer computer = ComputerMapper.getComputer(resultat);
-
-				computers.add(computer);
+		
+		List<Computer> computers = null;
+		
+		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(daoFactory.getDs());
+		
+		RowMapper<Computer> rowMapper = new RowMapper<Computer>()	{
+			
+			public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
+			
+			Computer computer = new Computer();
+			computer.setId(rs.getInt("computer.id"));
+			computer.setName(rs.getString("computer.name"));
+			computer.setIntroduced(DateMapper.sqlDateToLocalDate(rs.getDate("computer.introduced")));
+			computer.setDiscontinued(DateMapper.sqlDateToLocalDate(rs.getDate("computer.discontinued")));
+			computer.setCompany_id(rs.getInt("computer.id"));
+			
+		    return computer; 
+		    
 			}
-		} catch (SQLException e) {
-			logger.error("List isn't displayed");
-			e.printStackTrace();
-		}
+			
+		};
+		
+		String sqlLister = "SELECT id, name, introduced, discontinued, company_id FROM computer";
+		computers = jdbcTemplate.query(sqlLister, rowMapper);
+		
 		return computers;
 	}
 
-	/**
-	 * @return Une liste d'ordinateurs par page
-	 */
-	public List<Computer> listerpage(int entier1, int entier2, int lenPage) {
-
-		List<Computer> computers = new ArrayList<Computer>();
-		Connection connexion = null;
-		PreparedStatement preparedstatement = null;
-		ResultSet resultat = null;
-
-		try {
-			connexion = daoFactory.getConnection();
-			preparedstatement = connexion.prepareStatement(
-					"SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id >= ? AND id <= ?;");
-			preparedstatement.setInt(1, entier1 + lenPage);
-			preparedstatement.setInt(2, entier2 + lenPage);
-			resultat = preparedstatement.executeQuery();
-
-			while (resultat.next()) {
-
-				Computer computer = ComputerMapper.getComputer(resultat);
-
-				computers.add(computer);
-
-			}
-
-		} catch (SQLException e) {
-			logger.error("List page isn't displayed");
-			e.printStackTrace();
-		}
-		return computers;
-	}
-
+	
 	/**
 	 * Ajout d'un ordinateur
 	 */
 	@Override
 	public void ajouter(Computer computer) {
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
 
 		try {
-			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(
-					"INSERT INTO computer(id, name, introduced, discontinued, company_id) VALUES (?,?,?,?,?);");
-			preparedStatement.setInt(1, computer.getId());
-			preparedStatement.setString(2, computer.getName());
-			preparedStatement.setDate(3, DateMapper.localDateTosqlDate(computer.getIntroduced()));
-			preparedStatement.setDate(4, DateMapper.localDateTosqlDate(computer.getDiscontinued()));
-			preparedStatement.setInt(5, computer.getCompany_id());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
+			MapSqlParameterSource param = new MapSqlParameterSource();
+		    param.addValue("name", computer.getName());
+		    param.addValue("introduced", DateMapper.localDateTosqlDate(computer.getIntroduced()));
+		    param.addValue("discontinued", DateMapper.localDateTosqlDate(computer.getDiscontinued()));
+		    param.addValue("company_id", computer.getCompany_id());
+			
+		    NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(daoFactory.getDs());
+		    String sqlAjouter = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (:name,:introduced,:discontinued,:company_id);";
+		    jdbcTemplate.update(sqlAjouter, param);
+	
+		} catch (DataAccessException e) {
 			logger.error("Computer isn't added");
 			e.printStackTrace();
 		}
@@ -125,31 +101,26 @@ public class ComputerDaoImpl implements ComputerDao {
 	 * Modifie les éléments d'un ordinateur
 	 */
 	public boolean update(Computer computer) {
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
 
 		try {
 			logger.info(computer.getId() + " " + computer.getName() + " " + computer.getCompany_id());
-			// La particularité a noté c'est qu'on récupère l'objet :
-			// daoFactory.getConnection() qui représente la connexion
-			// comme ça on a pas besoin de refaire la connexion systématiquement
-			// et on récupère la connexion qui a été fait en amont en un factory
-			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(
-					"UPDATE computer SET id = ?, name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?;");
-			preparedStatement.setInt(1, computer.getId());
-			preparedStatement.setString(2, computer.getName());
-			preparedStatement.setDate(3, DateMapper.localDateTosqlDate(computer.getIntroduced()));
-			preparedStatement.setDate(4, DateMapper.localDateTosqlDate(computer.getDiscontinued()));
-			preparedStatement.setInt(5, computer.getCompany_id());
-			preparedStatement.setInt(6, computer.getId());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			logger.error("Computer isn't updated");
-			e.printStackTrace();
-			return false;
-		}
+			
+			MapSqlParameterSource param = new MapSqlParameterSource();
+			param.addValue("id", computer.getId());
+		    param.addValue("name", computer.getName());
+		    param.addValue("introduced", DateMapper.localDateTosqlDate(computer.getIntroduced()));
+		    param.addValue("discontinued", DateMapper.localDateTosqlDate(computer.getDiscontinued()));
+		    param.addValue("company_id", computer.getCompany_id());
+		    
+		    NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(daoFactory.getDs());
+		    String sqlUpdate = "UPDATE computer SET name = :name, introduced = :introduced, discontinued = :discontinued, company_id = :company_id WHERE id = :id;";
+		    jdbcTemplate.update(sqlUpdate, param);
+			
+			} catch (DataAccessException e) {
+				logger.error("Computer isn't updated");
+				e.printStackTrace();
+				return false;
+			}
 		return true;
 	}
 
@@ -157,20 +128,19 @@ public class ComputerDaoImpl implements ComputerDao {
 	 * Supprime un ordinateur
 	 */
 	public boolean delete(Computer computer) {
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
 
+		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(daoFactory.getDs());
+		
 		try {
-			// La particularité a noté c'est qu'on récupère l'objet :
-			// daoFactory.getConnection() qui représente la connexion
-			// comme ça on a pas besoin de refaire la connexion systématiquement
-			// et on récupère la connexion qui a été fait en amont en un factory
-			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement("DELETE FROM computer WHERE id = ?");
-			preparedStatement.setInt(1, computer.getId());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
+			MapSqlParameterSource param = new MapSqlParameterSource();
+			param.addValue("id", computer.getId());
+			   
+			String sqlDelete = "DELETE FROM computer WHERE id = :id";
+		    jdbcTemplate.update(sqlDelete, param);
+		    
+		    System.out.println(computer.getId());
+		    
+		} catch (DataAccessException e) {
 			e.printStackTrace();
 			logger.error("Computer isn't deleted");
 			return false;
@@ -183,24 +153,14 @@ public class ComputerDaoImpl implements ComputerDao {
 	 * @return le nombre d'ordinateurs
 	 */
 	public int getAll() {
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
 
 		int countComputers = 0;
-
-		try {
-			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement("SELECT COUNT(id) as total FROM computer;");
-			System.out.println(preparedStatement);
-
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				countComputers = resultSet.getInt("total");
-			}
-
-		} catch (SQLException e) {
-			logger.error("error listing all computers", e);
-		}
+		
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(daoFactory.getDs());
+		    String sqlCount = "SELECT COUNT(id) as total FROM computer;";
+			
+		    countComputers = jdbcTemplate.queryForObject(sqlCount, Integer.class);
+		
 		return countComputers;
 	}
 
@@ -210,22 +170,35 @@ public class ComputerDaoImpl implements ComputerDao {
 	 * @return Computer
 	 */
 	public Computer find(int id) {
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
-		ResultSet resultSet = null;
 
-		Computer computer = null;
+		Computer computer = new Computer();
+		
+		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(daoFactory.getDs());
+			
 		try {
-			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement("SELECT * FROM computer WHERE id=?;");
-
-			preparedStatement.setInt(1, id);
-			resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				computer = ComputerMapper.getComputer(resultSet);
+		MapSqlParameterSource param = new MapSqlParameterSource();
+		param.addValue("id", id);
+		
+		RowMapper<Computer> rowMapper = new RowMapper<Computer>()	{
+			
+			public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
+			
+			Computer computer = new Computer();
+			computer.setId(rs.getInt("computer.id"));
+			computer.setName(rs.getString("computer.name"));
+			computer.setIntroduced(DateMapper.sqlDateToLocalDate(rs.getDate("computer.introduced")));
+			computer.setDiscontinued(DateMapper.sqlDateToLocalDate(rs.getDate("computer.discontinued")));
+			computer.setCompany_id(rs.getInt("computer.id"));
+			
+		return computer;
 			}
+		};
+		
+		String sqlFind = "SELECT * FROM computer WHERE id= :id;";
+		   
+		computer = jdbcTemplate.queryForObject(sqlFind, param, rowMapper);
 
-		} catch (SQLException e) {
+		} catch (DataAccessException e) {
 			logger.error("Computer not found !");
 			e.printStackTrace();
 		}
@@ -240,27 +213,35 @@ public class ComputerDaoImpl implements ComputerDao {
 	 */
 	public List<Computer> getbyName(String search) {
 
-		List<Computer> selectedComputers = new ArrayList<Computer>();
-
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
-		ResultSet resultSet = null;
-
-		try {
-			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement("SELECT * FROM computer WHERE name LIKE ?");
-			preparedStatement.setString(1, search);
-			resultSet = preparedStatement.executeQuery();
-
-			while (resultSet.next()) {
-				Computer computer = ComputerMapper.getComputer(resultSet);
-				selectedComputers.add(computer);
+		List<Computer> selectedComputer = new ArrayList<Computer>();
+		
+		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(daoFactory.getDs());
+		
+		MapSqlParameterSource param = new MapSqlParameterSource();
+		param.addValue("search", search);
+		
+		RowMapper<Computer> rowMapper = new RowMapper<Computer>()	{	
+			
+			public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				Computer computer = new Computer();
+				computer.setId(rs.getInt("computer.id"));
+				computer.setName(rs.getString("computer.name"));
+				computer.setIntroduced(DateMapper.sqlDateToLocalDate(rs.getDate("computer.introduced")));
+				computer.setDiscontinued(DateMapper.sqlDateToLocalDate(rs.getDate("computer.discontinued")));
+				computer.setCompany_id(rs.getInt("computer.id"));
+				
+			    return computer;
+			    
 			}
+			
+		};
+		
+		    String sqlGetbyName = "SELECT * FROM computer WHERE name LIKE :search";
 
-		} catch (SQLException e) {
-			logger.error("error search all computers", e);
-		}
-		return selectedComputers;
+		    selectedComputer = jdbcTemplate.query(sqlGetbyName, param, rowMapper);
+	
+		return selectedComputer;
 	}
 
 	/**
@@ -268,30 +249,44 @@ public class ComputerDaoImpl implements ComputerDao {
 	 * @return ListComputers
 	 */
 	public List<Computer> orderBy() {
-		// retourne une liste d'utilisateurs
+	
 		List<Computer> computers = new ArrayList<Computer>();
-		Connection connexion = null;
-		Statement statement = null;
-		ResultSet resultat = null;
-
-		try {
-			connexion = daoFactory.getConnection();
-			statement = connexion.createStatement();
-			resultat = statement
-					.executeQuery("SELECT id, name, introduced, discontinued, company_id FROM computer ORDER BY name;");
-
-			while (resultat.next()) {
-
-				Computer computer = ComputerMapper.getComputer(resultat);
-
-				// ajout les ordinateurs de ma bdd dans une liste
-				computers.add(computer);
+		
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(daoFactory.getDs());
+		
+		RowMapper<Computer> rowMapper = new RowMapper<Computer>()	{	
+			
+			public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				Computer computer = new Computer();
+				computer.setId(rs.getInt("computer.id"));
+				computer.setName(rs.getString("computer.name"));
+				computer.setIntroduced(DateMapper.sqlDateToLocalDate(rs.getDate("computer.introduced")));
+				computer.setDiscontinued(DateMapper.sqlDateToLocalDate(rs.getDate("computer.discontinued")));
+				computer.setCompany_id(rs.getInt("computer.id"));
+				
+			    return computer;
+			    
 			}
-		} catch (SQLException e) {
-			logger.error("Error order By Computer");
-			e.printStackTrace();
-		}
+			
+		};
+	
+			String sqlOrderBy = "SELECT id, name, introduced, discontinued, company_id FROM computer ORDER BY name;";
+		    
+		    computers = jdbcTemplate.query(sqlOrderBy, rowMapper);
+		    
 		return computers;
+	}
+	
+	
+
+	/**
+	 * En cours de modification 
+	 */
+	@Override
+	public List<Computer> listerpage(int entier1, int entier2, int lenPage) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

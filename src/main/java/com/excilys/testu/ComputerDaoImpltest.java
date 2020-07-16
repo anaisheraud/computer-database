@@ -31,20 +31,6 @@ public class ComputerDaoImpltest {
 		System.out.println("@Test - List isn't empty !");
 	}
 	
-//	/* Test de la méthode page */
-//	@Test 
-//	public void testPage() {
-//		
-//		DaoFactory daofactory = new DaoFactory();
-//		
-//		int tailleattendue = 20;
-//		
-//		int tailletest = daofactory.getComputerDao().listerpage(1, 21, 1).size(); 
-//		
-//		assertEquals("Test fail !", tailleattendue, tailletest);
-//		
-//	}
-	
 	/**
 	 * Test - vérifie qu'aucun des paramètres (ici la liste) n'est égal à null
 	 */

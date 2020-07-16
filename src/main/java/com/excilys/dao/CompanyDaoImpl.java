@@ -34,10 +34,10 @@ public class CompanyDaoImpl implements CompanyDao {
 	 * Requêtes SQL, méthodes à implémenter
 	 */
 
-	@Override
 	/**
 	 * @return Une liste de compagnies
 	 */
+	@Override
 	public List<Company> lister() {
 		List<Company> companies = new ArrayList<Company>();
 		Connection connexion = null;

@@ -59,7 +59,6 @@ public class Computer {
 		this.introduced = introduced;
 		this.discontinued = discontinued;
 		this.company_id = company_id;
-		this.company_id = company_id;
 	}
 	public Computer() {
 		// TODO Auto-generated constructor stub
