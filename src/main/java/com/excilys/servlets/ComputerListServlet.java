@@ -37,7 +37,6 @@ import com.excilys.services.ServiceComputer;
 public class ComputerListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	
 	@Autowired
 	private ServiceComputer serviceComputer;
 	
@@ -89,6 +88,7 @@ public class ComputerListServlet extends HttpServlet {
 		
 		} else if (request.getParameter("search") == null || request.getParameter("search").isEmpty()) {
 			System.out.println("lister");
+			
 			computers = serviceComputer.lister();
 			
 		request.getParameter("ListComputers");

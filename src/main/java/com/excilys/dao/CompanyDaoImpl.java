@@ -10,8 +10,13 @@ import org.slf4j.LoggerFactory;
 import com.excilys.beans.Company;
 import com.excilys.beans.Computer;
 import com.excilys.mappers.CompanyMapper;
+import com.excilys.mappers.DateMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -40,25 +45,26 @@ public class CompanyDaoImpl implements CompanyDao {
 	@Override
 	public List<Company> lister() {
 		List<Company> companies = new ArrayList<Company>();
-		Connection connexion = null;
-		Statement statement = null;
-		ResultSet resultat = null;
-
-		try {
-			connexion = daoFactory.getConnection();
-			statement = connexion.createStatement();
-			resultat = statement.executeQuery("SELECT id, name FROM company;");
-
-			while (resultat.next()) {
-
-				Company company = CompanyMapper.getCompany(resultat);
-				companies.add(company);
-
+		
+		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(daoFactory.getDs());
+		
+		RowMapper<Company> rowMapper = new RowMapper<Company>()	{
+			
+			public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
+			
+			Company company = new Company();
+			company.setId(rs.getInt("company.id"));
+			company.setName(rs.getString("company.name"));
+			
+		    return company; 
+		    
 			}
-		} catch (SQLException e) {
-			logger.error("List isn't displayed");
-			e.printStackTrace();
-		}
+			
+		};
+		
+		String sqlLister = "SELECT id, name FROM company;";
+		companies = jdbcTemplate.query(sqlLister, rowMapper);
+		
 		return companies;
 	}
 	
@@ -66,27 +72,21 @@ public class CompanyDaoImpl implements CompanyDao {
 	 * Supprime une compagnie
 	 */
 	public boolean delete(int company_id) {
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
-		
-		try {	
-			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement
-					("DELETE FROM computer WHERE company_id = ?");
-			preparedStatement.setInt(1, company_id);		
-			preparedStatement.executeUpdate();
-			
-			preparedStatement = connexion.prepareStatement
-					("DELETE FROM company WHERE id = ?");
-			preparedStatement.setInt(1, company_id);
-			preparedStatement.executeUpdate();
-			
-		} catch (SQLException e) {
-					e.printStackTrace();
-					logger.error("Company isn't deleted");
-					return false;
-			}
-		return true;
-	} 
-
+	
+	NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(daoFactory.getDs());
+	
+	try {
+		MapSqlParameterSource param = new MapSqlParameterSource();
+		param.addValue("id", company_id);
+		   
+		String sqlDelete = "DELETE FROM company WHERE company_id = ?";
+	    jdbcTemplate.update(sqlDelete, param);
+	    
+	} catch (DataAccessException e) {
+		e.printStackTrace();
+		logger.error("Company isn't deleted");
+		return false;
+	}
+	return true;
+	}
 }
