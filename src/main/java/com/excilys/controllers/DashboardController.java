@@ -19,7 +19,7 @@ public class DashboardController {
 	@Autowired
 	private ServiceComputer serviceComputer;
 
-	@GetMapping("/listComputers")
+	@GetMapping({"/listComputers","/"})
 	public ModelAndView get(DashboardDTO dashboardDTO) {
 
 		ModelAndView modelView = new ModelAndView();
