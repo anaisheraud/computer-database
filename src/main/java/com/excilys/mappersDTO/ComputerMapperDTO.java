@@ -10,12 +10,18 @@ import com.excilys.mappers.DateMapper;
 public class ComputerMapperDTO {
 	
 	public static Computer ComputerDtoToComputer(ComputerDTO computerDto) {
-		Computer computer = new Computer(
-				computerDto.getName(),
-				DateMapper.stringToLocalDate(computerDto.getDiscontinued()),
-				DateMapper.stringToLocalDate(computerDto.getIntroduced()),
-				(int)Integer.valueOf(computerDto.getCompany_id()));
-				computer.setId(Integer.parseInt(computerDto.getId()));
+		Computer computer = new Computer();
+		computer.setName(computerDto.getName());
+		if (!computerDto.getIntroduced().isEmpty()) {
+			computer.setIntroduced(DateMapper.stringToLocalDate(computerDto.getIntroduced()));
+		}
+		if (!computerDto.getDiscontinued().isEmpty()) {
+			computer.setDiscontinued(DateMapper.stringToLocalDate(computerDto.getDiscontinued()));
+		}
+		computer.setCompany_id((int)Integer.valueOf(computerDto.getCompany_id()));
+		if(computerDto.getId() != null) {
+			computer.setId(Integer.parseInt(computerDto.getId()));
+		}
 		return computer;
 	}
 	

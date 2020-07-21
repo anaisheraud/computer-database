@@ -1,14 +1,16 @@
 package com.excilys.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.excilys.beans.Computer;
-import com.excilys.services.ServiceCompany;
+import com.excilys.dto.DashboardDTO;
 import com.excilys.services.ServiceComputer;
 
 @Controller
@@ -16,25 +18,21 @@ public class DashboardController {
 
 	@Autowired
 	private ServiceComputer serviceComputer;
-	List<Computer> computers;
 
-	@Autowired
-	private ServiceCompany serviceCompany;
-
-	@GetMapping("/dashboard")
-	public void get(String orderBy, String search) {
+	@GetMapping("/listComputers")
+	public ModelAndView get(DashboardDTO dashboardDTO) {
 
 		ModelAndView modelView = new ModelAndView();
-		modelView.setViewName("Dashboard");
+		modelView.setViewName("dashboard");
 
 		List<Computer> computers;
 
 		int countComputers = serviceComputer.getAll();
 
-		if (orderBy != null && !orderBy.isEmpty()) {
+		if (dashboardDTO.getOrderBy() != null && !dashboardDTO.getOrderBy().isEmpty()) {
 			computers = serviceComputer.orderBy();
 
-		} else if (search == null || search.isEmpty()) {
+		} else if (dashboardDTO.getSearch() == null || dashboardDTO.getSearch().isEmpty()) {
 			System.out.println("lister");
 
 			computers = serviceComputer.lister();
@@ -43,33 +41,53 @@ public class DashboardController {
 
 		} else {
 
+			String search = new String("%");
+			
+			search += dashboardDTO.getSearch();
+			
 			search += "%";
 
-			search += search;
-
-			/**
-			 * % recherche contient, quelque soit les caractères avant et après il ressort
-			 * le mot complet
-			 */
-			search += "%";
-			request.setAttribute("search", search);
+			modelView.getModel().put("search", search);
 
 			computers = serviceComputer.getByName(search);
 
-			request.getParameter("ListComputers");
-			request.setAttribute("ListComputers", computers);
-
+			dashboardDTO.getListComputers();
+			modelView.getModel().put("ListComputers", computers);
+			
 		}
+		
+		dashboardDTO.getListComputers();
+		modelView.getModel().put("ListComputers", computers);
+		modelView.getModel().put("countComputers", countComputers);
 
-		// en attendant... computers = daofactory.getComputerDao().listerpage(page,
-		// page+lenPage, lenPage);
+		return modelView;
+		
+	}
+	
+	@PostMapping("/listComputers")
+	public ModelAndView doPost(DashboardDTO dashboardDTO) {
+		
+		ModelAndView modelView = new ModelAndView();
+		modelView.setViewName("redirect:listComputers");
+		
+		if(dashboardDTO.getSelection() != null && !dashboardDTO.getSelection().equals("")) {
 
-		request.getParameter("ListComputers");
-		request.setAttribute("ListComputers", computers);
-		request.setAttribute("countComputers", countComputers);
-		request.setAttribute("page", page);
-		request.setAttribute("lenPage", lenPage);
-
+			String ids = dashboardDTO.getSelection();
+			
+			List<Integer> ListId = new ArrayList<Integer>();
+			
+			for(String id : ids.split(",")) {
+				ListId.add(Integer.parseInt(id));
+			}
+			
+			for(Integer Id : ListId) {
+				serviceComputer.delete(serviceComputer.find(Id));	
+			}
+			
+		}
+		
+		return modelView;
+	
 	}
 
 }

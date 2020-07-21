@@ -24,13 +24,13 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1>Add Computer</h1>
-                    <form action="ComputerAddServlet" method="POST" onsubmit="return verifForm(this)">
+                    <form action="addComputer" method="POST" onsubmit="return verifForm(this)">
                         <fieldset>
                             <div class="form-group">
                             
                                 <label for="computerName">Computer name</label>
                                 <c:out value="${ErrorName}"/> 
-                                <input  type="text" name="computerName" class="form-control" id="computerName" placeholder="Computer name" onblur="verifName(this)">
+                                <input  type="text" name="name" class="form-control" id="computerName" placeholder="Computer name" onblur="verifName(this)">
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
@@ -42,7 +42,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
-                                <select name="companyId" class="form-control" id="companyId" >
+                                <select name="company_id" class="form-control" id="companyId" >
                                 	 <c:forEach var="companies" items="${Company}">
                                      <option value="${companies.id}">${companies.name}</option>  
                                      </c:forEach>                               
@@ -52,7 +52,7 @@
                         <div class="actions pull-right">
                             <input type="submit" value="Add" class="btn btn-primary">
                             or
-                            <a href="dashboard.html" class="btn btn-default">Cancel</a>
+                            <a href="listComputers" class="btn btn-default">Cancel</a>
                         </div>
                     </form>
                 </div>

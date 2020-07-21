@@ -59,8 +59,6 @@ public class ComputerDTO {
 		this.company_id = company_id;
 	}
 	
-
-	
 	public ComputerDTO() {
 		// TODO Auto-generated constructor stub
 	}
