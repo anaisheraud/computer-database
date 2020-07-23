@@ -1,7 +1,17 @@
 package com.excilys.beans;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table(name = "company")
 public class Company {
 	
+	@Id
 	public int id; 
 	public String name;
 	public int getId() {

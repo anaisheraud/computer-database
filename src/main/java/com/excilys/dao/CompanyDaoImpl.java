@@ -4,6 +4,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Query;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +33,8 @@ public class CompanyDaoImpl implements CompanyDao {
 
 	@Autowired
 	private DaoFactory daoFactory;
+	//private SessionFactory daoFactory;
+	
 	private Logger logger = LoggerFactory.getLogger(CompanyDaoImpl.class);
 
 	public CompanyDaoImpl(DaoFactory daoFactory) {
@@ -44,7 +50,17 @@ public class CompanyDaoImpl implements CompanyDao {
 	 */
 	@Override
 	public List<Company> lister() {
+//		
+		String sqlLister = "SELECT id, name FROM company;";
+//		
+//		Session session = daoFactory.;
+//		
+//		Query query = session.createQuery(sqlLister); 
+//		
+//		
+		
 		List<Company> companies = new ArrayList<Company>();
+		
 		
 		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(daoFactory.getDs());
 		
@@ -62,7 +78,7 @@ public class CompanyDaoImpl implements CompanyDao {
 			
 		};
 		
-		String sqlLister = "SELECT id, name FROM company;";
+		
 		companies = jdbcTemplate.query(sqlLister, rowMapper);
 		
 		return companies;
