@@ -33,17 +33,6 @@ public class DaoFactory {
         return ds.getConnection();
     }
 	
-    /**
-     * Accès à la bdd connecté 
-     * @return l'implémentation des méthodes des interfaces
-     */
-//	public ComputerDao getComputerDao() {
-//		return new ComputerDaoImpl(this);
-//	}
-	public CompanyDao getCompanyDao() {
-		return new CompanyDaoImpl(this);
-	}
-	
 	/**
 	 * @return ds
 	 */
