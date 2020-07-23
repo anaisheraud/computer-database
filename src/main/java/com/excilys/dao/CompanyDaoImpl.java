@@ -26,18 +26,17 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CompanyDaoImpl implements CompanyDao {
 	
+	private Logger logger = LoggerFactory.getLogger(CompanyDaoImpl.class);
+	
 	/**
 	 * Accès direct à l'objet connecté 
 	 * Récupération de la factory
 	 */
 
-	@Autowired
-	private DaoFactory daoFactory;
-	//private SessionFactory daoFactory;
-	
-	private Logger logger = LoggerFactory.getLogger(CompanyDaoImpl.class);
+	private SessionFactory daoFactory;
 
-	public CompanyDaoImpl(DaoFactory daoFactory) {
+	@Autowired
+	public CompanyDaoImpl(SessionFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
 
@@ -50,38 +49,16 @@ public class CompanyDaoImpl implements CompanyDao {
 	 */
 	@Override
 	public List<Company> lister() {
-//		
-		String sqlLister = "SELECT id, name FROM company;";
-//		
-//		Session session = daoFactory.;
-//		
-//		Query query = session.createQuery(sqlLister); 
-//		
-//		
 		
-		List<Company> companies = new ArrayList<Company>();
+		String sqlLister = "FROM Company";
 		
+		Session session = daoFactory.openSession();
+		session.beginTransaction();
+		List<Company> company = session.createQuery(sqlLister ,Company.class).list(); 
+		session.getTransaction().commit();
+		session.close();
 		
-		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(daoFactory.getDs());
-		
-		RowMapper<Company> rowMapper = new RowMapper<Company>()	{
-			
-			public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
-			
-			Company company = new Company();
-			company.setId(rs.getInt("company.id"));
-			company.setName(rs.getString("company.name"));
-			
-		    return company; 
-		    
-			}
-			
-		};
-		
-		
-		companies = jdbcTemplate.query(sqlLister, rowMapper);
-		
-		return companies;
+		return company;
 	}
 	
 	/**
@@ -89,20 +66,12 @@ public class CompanyDaoImpl implements CompanyDao {
 	 */
 	public boolean delete(int company_id) {
 	
-	NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(daoFactory.getDs());
-	
-	try {
-		MapSqlParameterSource param = new MapSqlParameterSource();
-		param.addValue("id", company_id);
-		   
-		String sqlDelete = "DELETE FROM company WHERE company_id = ?";
-	    jdbcTemplate.update(sqlDelete, param);
-	    
-	} catch (DataAccessException e) {
-		e.printStackTrace();
-		logger.error("Company isn't deleted");
-		return false;
-	}
-	return true;
+		Session session = daoFactory.openSession();
+		session.beginTransaction();	
+		session.delete(company_id);
+		session.getTransaction().commit();
+		session.close();
+		
+		return true;
 	}
 }
