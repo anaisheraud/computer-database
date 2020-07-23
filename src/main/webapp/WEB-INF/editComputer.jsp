@@ -26,12 +26,12 @@
                     </div>
                     <h1>Edit Computer</h1>
 
-                    <form action="EditComputers" method="POST">
+                    <form action="editComputer" method="POST">
                         <input type="hidden" value="${id}" id="id" name="id"> <!-- TODO: Change this value with the computer id -->
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label> 
-                                <input type="text" class="form-control" id="computerName" name="computerName" value="${computer.name}" placeholder="Computer name">
+                                <input type="text" class="form-control" id="computerName" name="name" value="${computer.name}" placeholder="Computer name">
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
@@ -43,7 +43,7 @@
                             </div>
                              <div class="form-group">
                                 <label for="companyId">Company</label> 
-                                <select class="form-control" id="companyId" name="companyId">
+                                <select class="form-control" id="companyId" name="company_id">
                                 	 <c:forEach var="companies" items="${Company}">
                                      <option value="${companies.id}">${companies.name}</option>  
                                      </c:forEach>                               
@@ -54,7 +54,7 @@
                         <div class="actions pull-right">
                             <input type="submit" value="Edit" class="btn btn-primary">
                             or
-                            <a href="dashboard.html" class="btn btn-default">Cancel</a>
+                            <a href="listComputers" class="btn btn-default">Cancel</a>
                         </div>
                     </form>
                 </div>

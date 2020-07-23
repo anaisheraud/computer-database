@@ -17,4 +17,5 @@ public class config extends AbstractContextLoaderInitializer
 		 rootContext.register(config.class);
 		 return rootContext;
 	 }
+
 }

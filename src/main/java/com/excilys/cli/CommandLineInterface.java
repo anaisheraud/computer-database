@@ -59,11 +59,11 @@ public class CommandLineInterface {
 		while (quit) {
 			features = scanner.nextLine();
 			switch (features) {
-
-			/*
-			 * case ("ListCt"): ListComputers10(); break;
-			 */
-
+			
+//			case ("ListCt"): 
+//				ListComputers10(); 
+//			break;
+			 
 			case ("ListCp"):
 				listComputers();
 				break;
@@ -111,48 +111,50 @@ public class CommandLineInterface {
 	/* Appelle des méthodes */
 
 	// Affiche la liste de tous les ordinateurs par page
-	/*
-	 * private static void ListComputers10() { // TODO Auto-generated method stub
-	 * 
-	 * int entier1 = 1; int entier2 = 10;
-	 * 
-	 * System.out.println("List computers"); ServiceComputer.listerpage(entier1,
-	 * entier2);
-	 * 
-	 * Scanner scanner = new Scanner(System.in);
-	 * System.out.println("Press key b before");
-	 * System.out.println("Press key n next");
-	 * System.out.println("Press key q quit");
-	 * 
-	 * String change = scanner.next();
-	 * 
-	 * while(!change.equals("q")) {
-	 * 
-	 * if(change.equals("b")) {
-	 * 
-	 * entier1 = entier1 - 10; entier2 = entier2 - 10;
-	 * 
-	 * if(entier1 < 1 && entier2 < 10) {
-	 * 
-	 * ServiceComputer.listerpage(1, 10); entier1 = 1; entier2 = 10;
-	 * 
-	 * }
-	 * 
-	 * ServiceComputer.listerpage(entier1, entier2);
-	 * 
-	 * } else if(change.equals("n")) {
-	 * 
-	 * entier1 = entier1 + 10; entier2 = entier2 + 10;
-	 * ServiceComputer.listerpage(entier1, entier2);
-	 * 
-	 * }
-	 * 
-	 * change = scanner.next();
-	 * 
-	 * }
-	 * 
-	 * }
-	 */
+	
+//	  private void ListComputers10() { // TODO Auto-generated method stub
+//	  
+//	  int entier1 = 1; int entier2 = 10;
+//	  
+//	  System.out.println("List computers"); ServiceComputer.listerpage(entier1,
+//	  entier2, 1);
+//	  
+//	  Scanner scanner = new Scanner(System.in);
+//	  System.out.println("Press key b before");
+//	  System.out.println("Press key n next");
+//	  System.out.println("Press key q quit");
+//	  
+//	  String change = scanner.next();
+//	  
+//	  while(!change.equals("q")) {
+//	  
+//	  if(change.equals("b")) {
+//	  
+//	  entier1 = entier1 - 10; entier2 = entier2 - 10;
+//	  
+//	  if(entier1 < 1 && entier2 < 10) {
+//	  
+//	  ServiceComputer.listerpage(1, 10, 1); 
+//	  entier1 = 1; 
+//	  entier2 = 10;
+//	  
+//	  }
+//	  
+//	  ServiceComputer.listerpage(entier1, entier2);
+//	  
+//	  } else if(change.equals("n")) {
+//	  
+//	  entier1 = entier1 + 10; entier2 = entier2 + 10;
+//	  ServiceComputer.listerpage(entier1, entier2);
+//	  
+//	  }
+//	  
+//	  change = scanner.next();
+//	  
+//	  }
+//	  
+//	 }
+	 
 	
 	/**
 	 * Affiche la liste de toutes les ordinateurs

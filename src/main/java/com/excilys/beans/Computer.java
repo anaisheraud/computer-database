@@ -2,17 +2,25 @@ package com.excilys.beans;
 
 import java.time.LocalDate;
 
-import com.excilys.services.ServiceCompany;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table(name = "computer")
 public class Computer {
 	
+	@Id
+	@GeneratedValue(generator = "increment")
+	@GenericGenerator(name = "increment", strategy = "increment")
 	private int id; 
 	private String name;
 	private LocalDate introduced;
 	private LocalDate discontinued;
-	private int company_id;
-	
-	private Company company;
+	private Integer company_id;
 	
 	public int getId() {
 		return id;
@@ -38,10 +46,10 @@ public class Computer {
 	public void setDiscontinued(LocalDate discontinued) {
 		this.discontinued = discontinued;
 	}
-	public int getCompany_id() {
+	public Integer getCompany_id() {
 		return company_id;
 	}
-	public void setCompany_id(int company_id) {
+	public void setCompany_id(Integer company_id) {
 		this.company_id = company_id;
 	}
 	
@@ -58,7 +66,6 @@ public class Computer {
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
-		this.company_id = company_id;
 		this.company_id = company_id;
 	}
 	public Computer() {

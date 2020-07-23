@@ -21,6 +21,7 @@
 		<mysql-connector-java.version>8.0.20</mysql-connector-java.version>
 		<mockito-all.version>1.10.19</mockito-all.version>
 		<slf4j-api.version>1.6.1</slf4j-api.version>
+		<spring.version>5.2.7.RELEASE</spring.version>
 
 	</properties>
 
@@ -68,6 +69,7 @@
 			<artifactId>tomcat-servlet-api</artifactId>
 			<version>9.0.36</version>
 		</dependency>
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
@@ -80,51 +82,75 @@
 			<version>4.0.0</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
-    		<groupId>org.seleniumhq.selenium</groupId>
-   			<artifactId>selenium-java</artifactId>
-    		<version>3.141.59</version>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>3.141.59</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-firefox-driver</artifactId>
+			<version>3.141.59</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.webdriver</groupId>
+			<artifactId>webdriver-selenium</artifactId>
+			<version>0.9.7376</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>3.4.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>  
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.4.18.Final</version>
 		</dependency>
 		
 		<dependency>
-        	<groupId>org.seleniumhq.selenium</groupId>
-   			<artifactId>selenium-firefox-driver</artifactId>
-    		<version>3.141.59</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>5.2.8.RELEASE</version>
 		</dependency>
-		
-		<dependency>
-    		<groupId>org.seleniumhq.webdriver</groupId>
-   			<artifactId>webdriver-selenium</artifactId>
-    		<version>0.9.7376</version>
-		</dependency>
-		
-		<dependency>
-    		<groupId>com.zaxxer</groupId>
-    		<artifactId>HikariCP</artifactId>
-    		<version>3.4.5</version>
-		</dependency>
-		
+
 		<!-- pour utiliser Spring -->
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>5.2.4.RELEASE</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>5.2.4.RELEASE</version>
-		</dependency>	
-		
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>5.2.4.RELEASE</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>5.2.7.RELEASE</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

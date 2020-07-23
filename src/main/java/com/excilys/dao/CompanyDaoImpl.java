@@ -4,29 +4,39 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Query;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.beans.Company;
 import com.excilys.beans.Computer;
 import com.excilys.mappers.CompanyMapper;
+import com.excilys.mappers.DateMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class CompanyDaoImpl implements CompanyDao {
+	
+	private Logger logger = LoggerFactory.getLogger(CompanyDaoImpl.class);
 	
 	/**
 	 * Accès direct à l'objet connecté 
 	 * Récupération de la factory
 	 */
 
-	@Autowired
-	private DaoFactory daoFactory;
-	private Logger logger = LoggerFactory.getLogger(CompanyDaoImpl.class);
+	private SessionFactory daoFactory;
 
-	public CompanyDaoImpl(DaoFactory daoFactory) {
+	@Autowired
+	public CompanyDaoImpl(SessionFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
 
@@ -34,59 +44,34 @@ public class CompanyDaoImpl implements CompanyDao {
 	 * Requêtes SQL, méthodes à implémenter
 	 */
 
-	@Override
 	/**
 	 * @return Une liste de compagnies
 	 */
+	@Override
 	public List<Company> lister() {
-		List<Company> companies = new ArrayList<Company>();
-		Connection connexion = null;
-		Statement statement = null;
-		ResultSet resultat = null;
-
-		try {
-			connexion = daoFactory.getConnection();
-			statement = connexion.createStatement();
-			resultat = statement.executeQuery("SELECT id, name FROM company;");
-
-			while (resultat.next()) {
-
-				Company company = CompanyMapper.getCompany(resultat);
-				companies.add(company);
-
-			}
-		} catch (SQLException e) {
-			logger.error("List isn't displayed");
-			e.printStackTrace();
-		}
-		return companies;
+		
+		String sqlLister = "FROM Company";
+		
+		Session session = daoFactory.openSession();
+		session.beginTransaction();
+		List<Company> company = session.createQuery(sqlLister ,Company.class).list(); 
+		session.getTransaction().commit();
+		session.close();
+		
+		return company;
 	}
 	
 	/**
 	 * Supprime une compagnie
 	 */
 	public boolean delete(int company_id) {
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
+	
+		Session session = daoFactory.openSession();
+		session.beginTransaction();	
+		session.delete(company_id);
+		session.getTransaction().commit();
+		session.close();
 		
-		try {	
-			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement
-					("DELETE FROM computer WHERE company_id = ?");
-			preparedStatement.setInt(1, company_id);		
-			preparedStatement.executeUpdate();
-			
-			preparedStatement = connexion.prepareStatement
-					("DELETE FROM company WHERE id = ?");
-			preparedStatement.setInt(1, company_id);
-			preparedStatement.executeUpdate();
-			
-		} catch (SQLException e) {
-					e.printStackTrace();
-					logger.error("Company isn't deleted");
-					return false;
-			}
 		return true;
-	} 
-
+	}
 }
