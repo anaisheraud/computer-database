@@ -24,14 +24,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ComputerDaoImpl implements ComputerDao {
 
+	private Logger logger = LoggerFactory.getLogger(ComputerDaoImpl.class);
+	
 	/**
 	 * Accès direct à l'objet connecté Récupération de la factory
 	 */
 
-	//private DaoFactory daoFactory;
 	private SessionFactory daoFactory;
-	
-	private Logger logger = LoggerFactory.getLogger(ComputerDaoImpl.class);
 
 	@Autowired
 	public ComputerDaoImpl(SessionFactory daoFactory) {
@@ -45,32 +44,28 @@ public class ComputerDaoImpl implements ComputerDao {
 	/**
 	 * @return Une liste d'ordinateurs
 	 */
+	@Override
 	public List<Computer> lister() {
-		
 		String sqlLister = "FROM Computer";
 		
 		Session session = daoFactory.openSession();
 		session.beginTransaction();
-		
 		List<Computer> computer = session.createQuery(sqlLister ,Computer.class).list(); 
 		session.getTransaction().commit();
-		
 		session.close();
+		
 		return computer;
 	}	
 	
 	/**
 	 * Ajout d'un ordinateur
 	 */
-	@Override
 	public void ajouter(Computer computer) {
 
 		Session session = daoFactory.openSession();
 		session.beginTransaction();
-		
 		session.save(computer); 
 		session.getTransaction().commit();
-		
 		session.close();	
 	}
 
@@ -81,10 +76,8 @@ public class ComputerDaoImpl implements ComputerDao {
 
 		Session session = daoFactory.openSession();
 		session.beginTransaction();
-		
 		session.update(computer); 
 		session.getTransaction().commit();
-		
 		session.close();
 		
 		return true;
@@ -96,35 +89,12 @@ public class ComputerDaoImpl implements ComputerDao {
 	public boolean delete(Computer computer) {
 		
 		Session session = daoFactory.openSession();
-		session.beginTransaction();
-		
+		session.beginTransaction();	
 		session.delete(computer);
 		session.getTransaction().commit();
-		
 		session.close();
 		
 		return true;
-	}
-
-	/**
-	 * Count de tous les ordinateurs présents dans la bdd
-	 * @return le nombre d'ordinateurs
-	 */
-	public int getAll() {
-
-		int countComputers = 0;
-		
-		String sqlCount = "SELECT COUNT(id) as total FROM Computer";
-		
-		Session session = daoFactory.openSession();
-		session.beginTransaction();
-		
-		session.createQuery(sqlCount); 
-		session.getTransaction().commit();
-		
-		session.close();
-		
-		return countComputers;
 	}
 
 	/**
@@ -133,21 +103,33 @@ public class ComputerDaoImpl implements ComputerDao {
 	 * @return Computer
 	 */
 	public Computer find(int id) {
-
-		Computer computer = new Computer();
-		
 		String sqlFind = "FROM Computer WHERE id= :id";
 		
+		Computer computer = new Computer();
 		Session session = daoFactory.openSession();
 		session.beginTransaction();
-		
-		computer = session.createQuery(sqlFind, Computer.class).setParameter("id", id).getSingleResult(); 
-		
+		computer = session.createQuery(sqlFind, Computer.class)
+				.setParameter("id", id).getSingleResult(); 
 		session.getTransaction().commit();
-		
 		session.close();
 		
 		return computer;
+	}
+	
+	/**
+	 * Count de tous les ordinateurs présents dans la bdd
+	 * @return le nombre d'ordinateurs
+	 */
+	public int getAll() {
+		String sqlCount = "SELECT COUNT(id) as total FROM Computer";
+		
+		Session session = daoFactory.openSession();
+		session.beginTransaction();
+		Long countComputers = session.createQuery(sqlCount, Long.class).getSingleResult(); 
+		session.getTransaction().commit();
+		session.close();
+		
+		return countComputers.intValue();
 	}
 
 	/**
@@ -156,15 +138,13 @@ public class ComputerDaoImpl implements ComputerDao {
 	 * @return ListComputers
 	 */
 	public List<Computer> getbyName(String search) {
-
-		String sqlGetbyName = "SELECT * FROM computer WHERE name LIKE :search";
+		String sqlGetbyName = "FROM Computer WHERE name LIKE :search";
 
 		Session session = daoFactory.openSession();
-		session.beginTransaction();
-		
-		List<Computer> selectedComputer = session.createQuery(sqlGetbyName).list(); 
+		session.beginTransaction();	
+		List<Computer> selectedComputer = session.createQuery(sqlGetbyName, Computer.class)
+				.setParameter("search", search).list(); 
 		session.getTransaction().commit();
-		
 		session.close();
 		
 		return selectedComputer;
@@ -175,15 +155,12 @@ public class ComputerDaoImpl implements ComputerDao {
 	 * @return ListComputers
 	 */
 	public List<Computer> orderBy() {
-	
-		String sqlOrderBy = "ORDER BY :attribute";
+		String sqlOrderBy = "FROM Computer ORDER BY name";
 
 		Session session = daoFactory.openSession();
 		session.beginTransaction();
-		
-		List<Computer> computers = session.createQuery(sqlOrderBy).list(); 
-		session.getTransaction().commit();
-		
+		List<Computer> computers = session.createQuery(sqlOrderBy, Computer.class).list(); 
+		session.getTransaction().commit();	
 		session.close();
 		
 		return computers;
@@ -192,7 +169,6 @@ public class ComputerDaoImpl implements ComputerDao {
 	/**
 	 * En cours de modification 
 	 */
-	@Override
 	public List<Computer> listerpage(int entier1, int entier2, int lenPage) {
 		return null;
 	}
