@@ -6,21 +6,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.excilys</groupId>
-	<artifactId>computer-database_multimodules</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
 
-	<modules>
-
-		<module>Core</module>
-		<module>Persistance</module>
-		<module>Services</module>
-		<module>Binding</module>
-		<module>Webapp</module>
-		<module>Console</module>
-
-	</modules>
+	<parent>
+        	<groupId>com.excilys</groupId>
+        	<artifactId>computer-database_multimodules</artifactId>
+        	<version>0.0.1-SNAPSHOT</version>
+    	</parent>
+    
+    		<groupId>com.excilys</groupId>
+    		<artifactId>Console</artifactId>
+    		<packaging>jar</packaging>
 
 	<properties>
 
@@ -43,6 +38,30 @@
 			et dans scope on fait appelle à quelle éxécution on veut pointer, ici c'est 
 			nécessaire pour les tests avec mockito la version utilisée est indiquée en 
 			dernier -->
+
+		<dependency>
+            		<groupId>${project.groupId}</groupId>
+            		<artifactId>Core</artifactId>
+            		<version>${project.version}</version>
+        	</dependency>
+
+ 		<dependency>
+            		<groupId>${project.groupId}</groupId>
+            		<artifactId>Binding</artifactId>
+            		<version>${project.version}</version>
+        	</dependency>
+
+		<dependency>
+            		<groupId>${project.groupId}</groupId>
+            		<artifactId>Persistance</artifactId>
+            		<version>${project.version}</version>
+        	</dependency>
+
+		 <dependency>
+            		<groupId>${project.groupId}</groupId>
+            		<artifactId>Services</artifactId>
+            		<version>${project.version}</version>
+        	</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -174,6 +193,16 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<!-- Le plugin WAR est responsable de la collecte de toutes les dépendances 
+					d'artefacts, classes et ressources de l'application Web et les regrouper 
+					dans une archive d'application Web. -->
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.3</version>
+				<configuration>
+					<warSourceDirectory>webapp</warSourceDirectory>
 				</configuration>
 			</plugin>
 		</plugins>
