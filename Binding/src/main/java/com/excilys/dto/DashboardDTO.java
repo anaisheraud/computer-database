@@ -8,6 +8,8 @@ public class DashboardDTO {
 	private String ListComputers;
 	private String countComputers;
 	private String selection;
+	private String lenPage;
+	private String page;
 	
 	public String getOrderBy() {
 		return orderBy;
@@ -44,6 +46,18 @@ public class DashboardDTO {
 	}
 	public void setSelection(String selection) {
 		this.selection = selection;
+	}
+	public String getLenPage() {
+		return lenPage;
+	}
+	public void setLenPage(String lenPage) {
+		this.lenPage = lenPage;
+	}
+	public String getPage() {
+		return page;
+	}
+	public void setPage(String page) {
+		this.page = page;
 	}
 	
 }

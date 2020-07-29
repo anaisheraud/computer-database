@@ -12,7 +12,7 @@ import com.excilys.dao.ComputerDaoImpl;
 import com.excilys.mappers.DateMapper;
 import com.excilys.services.ServiceCompany;
 import com.excilys.services.ServiceComputer;
-import com.excilys.spring.config;
+import com.excilys.spring.Config;
 
 /**
  * Point d'entrée d'application
@@ -21,7 +21,7 @@ import com.excilys.spring.config;
  */
 public class CommandLineInterface {
 	
-	ApplicationContext context = new AnnotationConfigApplicationContext(config.class);
+	ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 
 	private ServiceComputer serviceComputer = context.getBean(ServiceComputer.class);
 	private ServiceCompany serviceCompany = context.getBean(ServiceCompany.class);
@@ -59,10 +59,6 @@ public class CommandLineInterface {
 		while (quit) {
 			features = scanner.nextLine();
 			switch (features) {
-			
-//			case ("ListCt"): 
-//				ListComputers10(); 
-//			break;
 			 
 			case ("ListCp"):
 				listComputers();
@@ -106,62 +102,13 @@ public class CommandLineInterface {
 		}
 		scanner.close();
 
-	}
-
-	/* Appelle des méthodes */
-
-	// Affiche la liste de tous les ordinateurs par page
-	
-//	  private void ListComputers10() { // TODO Auto-generated method stub
-//	  
-//	  int entier1 = 1; int entier2 = 10;
-//	  
-//	  System.out.println("List computers"); ServiceComputer.listerpage(entier1,
-//	  entier2, 1);
-//	  
-//	  Scanner scanner = new Scanner(System.in);
-//	  System.out.println("Press key b before");
-//	  System.out.println("Press key n next");
-//	  System.out.println("Press key q quit");
-//	  
-//	  String change = scanner.next();
-//	  
-//	  while(!change.equals("q")) {
-//	  
-//	  if(change.equals("b")) {
-//	  
-//	  entier1 = entier1 - 10; entier2 = entier2 - 10;
-//	  
-//	  if(entier1 < 1 && entier2 < 10) {
-//	  
-//	  ServiceComputer.listerpage(1, 10, 1); 
-//	  entier1 = 1; 
-//	  entier2 = 10;
-//	  
-//	  }
-//	  
-//	  ServiceComputer.listerpage(entier1, entier2);
-//	  
-//	  } else if(change.equals("n")) {
-//	  
-//	  entier1 = entier1 + 10; entier2 = entier2 + 10;
-//	  ServiceComputer.listerpage(entier1, entier2);
-//	  
-//	  }
-//	  
-//	  change = scanner.next();
-//	  
-//	  }
-//	  
-//	 }
-	 
+	} 
 	
 	/**
 	 * Affiche la liste de toutes les ordinateurs
 	 * @return 
 	 */
 	private void listComputers() {
-		// TODO Auto-generated method stub
 
 		System.out.println("List computers" + "/n" + serviceComputer.lister());
 	}
@@ -170,7 +117,6 @@ public class CommandLineInterface {
 	 * Affiche la liste de toutes les compagnies
 	 */
 	private void listCompanies() {
-		// TODO Auto-generated method stub
 
 		System.out.println("List companies" + "/n" + serviceCompany.lister());
 
@@ -180,7 +126,6 @@ public class CommandLineInterface {
 	 * Affiche les détails d'un ordinateur
 	 */
 	private void showComputerdetails() {
-		// TODO Auto-generated method stub
 
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Id of computer ? ");
@@ -195,7 +140,6 @@ public class CommandLineInterface {
 	 * Créer un ordinateur
 	 */
 	private void createComputer() {
-		// TODO Auto-generated method stub
 
 		Computer computer = new Computer();
 
@@ -237,7 +181,6 @@ public class CommandLineInterface {
 	 * Modifie un ordinateur
 	 */
 	private void updateComputer() {
-		// TODO Auto-generated method stub
 
 		Computer computer = new Computer();
 
@@ -280,7 +223,6 @@ public class CommandLineInterface {
 	 * Supprime un ordinateur
 	 */
 	private void deleteComputer() {
-		// TODO Auto-generated method stub
 
 		 Scanner scanner = new Scanner(System.in);
 		 System.out.println("Id ?");
@@ -298,7 +240,6 @@ public class CommandLineInterface {
 	 * Supprime une compagnie
 	 */
 	private void deleteCompany() {
-		// TODO Auto-generated method stub
 		
 		 Scanner scanner = new Scanner(System.in);
 		 System.out.println("Id ?");

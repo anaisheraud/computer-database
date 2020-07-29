@@ -2,10 +2,9 @@ package com.excilys.dao;
 
 import java.util.List;
 
-import com.excilys.beans.Company;
-import com.excilys.beans.Computer;
-
 import org.springframework.stereotype.Repository;
+
+import com.excilys.beans.Company;
 
 /**
  * Méthodes sans implémentation

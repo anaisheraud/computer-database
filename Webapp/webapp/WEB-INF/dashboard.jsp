@@ -36,7 +36,7 @@
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="http://localhost:8080/computer__database/addComputer">Add Computer</a> 
+                    <a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                             </span>
                         </th>
                         <th>
-                            Computer name <a href="http://localhost:8080/computer__database/listComputers?orderBy=true">Click OrderBy</a>
+                            Computer name <a href="listComputers?orderBy=true">Click OrderBy</a>
                         </th>
                         <th>
                             Introduced date
@@ -86,7 +86,7 @@
                             <input type="checkbox" name="cb" class="cb" value="${computer.id}">
                         </td>
                         <td>
-                            <a href="http://localhost:8080/computer__database/editComputer?id=${computer.id}" onclick=""><c:out value="${computer.name}"></c:out></a>
+                            <a href="editComputer?id=${computer.id}" onclick=""><c:out value="${computer.name}"></c:out></a>
                         </td>
                         <td><c:out value="${computer.introduced}"></c:out></td>
                         <td><c:out value="${computer.discontinued}"></c:out></td>
@@ -101,33 +101,29 @@
         </div>
     </section>
 
-    <footer class="navbar-fixed-bottom">
-        <div class="container text-center">
-            <ul class="pagination">
-                 <li>
-                      <a href="ListComputers?page=${page}&lenPage=${lenPage}" aria-label="Previous">
-					  <span aria-hidden="true">&laquo;</span>
-                      </a>
-                 </li>
-                      <c:forEach var="i" begin="1" end="5">                
-              	 <li>
-              			<a name="${page+i}" id="page" href="listComputers?page=${page+i}&lenPage=${lenPage}"><c:out value="${page+i}"></c:out></a>
-              	 </li>
-     		 		</c:forEach>
-                 <li>
-                    <a href="listComputers?page=${page+5}&lenPage=${lenPage}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>                  	
-                </a>
-            </li>
-         
-        </ul>
+	<footer class="navbar-fixed-bottom">
+		<div class="container text-center">
+			<ul class="pagination">
+				<li><a href="listComputers?lenPage=${lenPage}&page=${page-1}" aria-label="Previous"> <span
+						aria-hidden="true">&laquo;</span>
+				</a></li>
+				<c:forEach var="i" begin="${page}" end="${page + 4}">
+					<li><a
+						href="listComputers?lenPage=${lenPage}&page=${i}">
+							${i} </a></li>
+				</c:forEach>
+				<li><a
+					href="listComputers?lenPage=${lenPage}&page=${page+1}"
+					aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+				</a></li>
+			</ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
             <button type="button" class="btn btn-default"><a href = "listComputers?lenPage=${lenPage=10}">10</a></button>
             <button type="button" class="btn btn-default"><a href = "listComputers?lenPage=${lenPage=50}">50</a></button>
             <button type="button" class="btn btn-default"><a href = "listComputers?lenPage=${lenPage=100}">100</a></button>
         </div>
-
+		</div>
     </footer>
     
 <script src="js/jquery.min.js"></script>

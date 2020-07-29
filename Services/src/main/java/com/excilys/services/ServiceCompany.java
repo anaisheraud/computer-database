@@ -1,15 +1,12 @@
 package com.excilys.services;
 
 import java.util.List;
-import java.util.Scanner;
-
-import com.excilys.beans.Company;
-import com.excilys.beans.Computer;
-import com.excilys.dao.CompanyDaoImpl;
-import com.excilys.dao.DaoFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.excilys.beans.Company;
+import com.excilys.dao.CompanyDaoImpl;
 
 @Service
 public class ServiceCompany {

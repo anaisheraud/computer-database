@@ -8,7 +8,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 import com.excilys.dao.DaoFactory;
 
-@Configuration
+@Configuration 
 @ComponentScan(basePackages = "com.excilys")
 public class HibernateConfig {
 	

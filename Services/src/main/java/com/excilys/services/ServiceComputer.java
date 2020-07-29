@@ -21,8 +21,8 @@ public class ServiceComputer {
 	  * @param lenPage
 	  * @return ListComputers
 	  */
-	 public List<Computer> listerpage(int entier1, int entier2, int lenPage) { 
-		 List<Computer> allComputer = ComputerDao.listerpage(entier1, entier2, lenPage);
+	 public List<Computer> listerpage(int entier1, int entier2) { 
+		 List<Computer> allComputer = ComputerDao.listerpage(entier1, entier2);
 		 return allComputer;	 
 	 }
 	 

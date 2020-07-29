@@ -1,30 +1,18 @@
 package com.excilys.dao;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.beans.Computer;
-import com.excilys.mappers.DateMapper;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Repository;
 
 @Repository
 public class ComputerDaoImpl implements ComputerDao {
 
-	private Logger logger = LoggerFactory.getLogger(ComputerDaoImpl.class);
+	//private Logger logger = LoggerFactory.getLogger(ComputerDaoImpl.class);
 	
 	/**
 	 * Accès direct à l'objet connecté Récupération de la factory
@@ -40,13 +28,17 @@ public class ComputerDaoImpl implements ComputerDao {
 	/**
 	 * Requêtes SQL, méthodes à implémenter
 	 */
-
+	
+	String sqlLister = "FROM Computer";
+	String sqlFind = "FROM Computer WHERE id= :id";
+	String sqlCount = "SELECT COUNT(id) as total FROM Computer";
+	String sqlGetbyName = "FROM Computer WHERE name LIKE :search";
+	
 	/**
 	 * @return Une liste d'ordinateurs
 	 */
 	@Override
 	public List<Computer> lister() {
-		String sqlLister = "FROM Computer";
 		
 		Session session = daoFactory.openSession();
 		session.beginTransaction();
@@ -103,7 +95,6 @@ public class ComputerDaoImpl implements ComputerDao {
 	 * @return Computer
 	 */
 	public Computer find(int id) {
-		String sqlFind = "FROM Computer WHERE id= :id";
 		
 		Computer computer = new Computer();
 		Session session = daoFactory.openSession();
@@ -121,7 +112,6 @@ public class ComputerDaoImpl implements ComputerDao {
 	 * @return le nombre d'ordinateurs
 	 */
 	public int getAll() {
-		String sqlCount = "SELECT COUNT(id) as total FROM Computer";
 		
 		Session session = daoFactory.openSession();
 		session.beginTransaction();
@@ -134,11 +124,10 @@ public class ComputerDaoImpl implements ComputerDao {
 
 	/**
 	 * Recherche un ordinateur avec son nom dans la bdd
-	 * @param id
-	 * @return ListComputers
+	 * @param search
+	 * @return SelectedComputers
 	 */
 	public List<Computer> getbyName(String search) {
-		String sqlGetbyName = "FROM Computer WHERE name LIKE :search";
 
 		Session session = daoFactory.openSession();
 		session.beginTransaction();	
@@ -167,10 +156,20 @@ public class ComputerDaoImpl implements ComputerDao {
 	}
 	
 	/**
-	 * En cours de modification 
+	 * Lister les pages
+	 * @return computer
 	 */
-	public List<Computer> listerpage(int entier1, int entier2, int lenPage) {
-		return null;
+	public List<Computer> listerpage(int entier1, int entier2) {
+		
+		Session session = daoFactory.openSession();
+		session.beginTransaction();
+		List<Computer> computer = session.createQuery(sqlLister ,Computer.class)
+				.setFirstResult(entier1)
+				.setMaxResults(entier2).list();
+		session.getTransaction().commit();
+		session.close();
+		
+		return computer;
 	}
 
 }

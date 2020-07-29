@@ -15,7 +15,7 @@ public class Selenium {
 		
 		WebDriver driver = new FirefoxDriver();
 		
-		driver.get("http://localhost:8080/computer__database/listComputers");
+		driver.get("http://localhost:8080/Webapp/listComputers");
 		
 	}
 

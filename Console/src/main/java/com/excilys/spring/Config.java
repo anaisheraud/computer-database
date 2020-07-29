@@ -8,13 +8,13 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 
 @Configuration
 @ComponentScan(basePackages = "com.excilys")
-public class config extends AbstractContextLoaderInitializer 
+public class Config extends AbstractContextLoaderInitializer 
 {
 	 @Override
 	 protected WebApplicationContext createRootApplicationContext() 
 	 {
 		 AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-		 rootContext.register(config.class);
+		 rootContext.register(Config.class);
 		 return rootContext;
 	 }
 

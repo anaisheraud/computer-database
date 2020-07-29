@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ComputerDao {
 	
-	List<Computer> listerpage(int entier1, int entier2, int lenPage);
+	List<Computer> listerpage(int entier1, int entier2);
 	List<Computer> lister();
 	void ajouter(Computer computer);
 	boolean update(Computer computer);
