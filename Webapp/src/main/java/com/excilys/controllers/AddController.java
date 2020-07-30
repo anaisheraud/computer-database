@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.excilys.beans.Company;
-import com.excilys.beans.Computer;
 import com.excilys.dto.AddDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mappersDTO.ComputerMapperDTO;
+import com.excilys.models.Company;
+import com.excilys.models.Computer;
 import com.excilys.services.ServiceCompany;
 import com.excilys.services.ServiceComputer;
 import com.excilys.validator.Validators;

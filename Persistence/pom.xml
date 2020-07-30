@@ -14,7 +14,7 @@
     	</parent>
     
     		<groupId>com.excilys</groupId>
-    		<artifactId>Persistance</artifactId>
+    		<artifactId>Persistence</artifactId>
     		<packaging>jar</packaging>
 
 	<properties>

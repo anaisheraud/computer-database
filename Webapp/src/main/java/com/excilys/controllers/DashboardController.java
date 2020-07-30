@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.excilys.beans.Computer;
 import com.excilys.dto.DashboardDTO;
+import com.excilys.models.Computer;
 import com.excilys.services.ServiceComputer;
 
 @Controller

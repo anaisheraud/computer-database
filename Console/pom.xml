@@ -41,7 +41,7 @@
 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>Persistance</artifactId>
+			<artifactId>Persistence</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

@@ -7,7 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.excilys.beans.Computer;
+import com.excilys.models.Computer;
 
 @Repository
 public class ComputerDaoImpl implements ComputerDao {

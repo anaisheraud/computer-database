@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import com.excilys.beans.Computer;
 import com.excilys.dao.ComputerDaoImpl;
 import com.excilys.mappers.DateMapper;
+import com.excilys.models.Computer;
 import com.excilys.services.ServiceCompany;
 import com.excilys.services.ServiceComputer;
 import com.excilys.spring.Config;
