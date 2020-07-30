@@ -7,7 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.excilys.beans.Company;
+import com.excilys.models.Company;
 
 @Repository
 public class CompanyDaoImpl implements CompanyDao {

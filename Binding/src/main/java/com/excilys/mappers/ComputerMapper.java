@@ -3,7 +3,7 @@ package com.excilys.mappers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.excilys.beans.Computer;
+import com.excilys.models.Computer;
 
 public class ComputerMapper {
 

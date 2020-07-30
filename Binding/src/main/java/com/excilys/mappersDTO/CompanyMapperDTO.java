@@ -1,7 +1,7 @@
 package com.excilys.mappersDTO;
 
-import com.excilys.beans.Company;
 import com.excilys.dto.CompanyDTO;
+import com.excilys.models.Company;
 
 /**
  * Convertir le résultat de la bdd pour chaque ordis en objet

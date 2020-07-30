@@ -3,7 +3,7 @@ package com.excilys.mappers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.excilys.beans.Company;
+import com.excilys.models.Company;
 
 /**
  * Convertir le résultat de la bdd pour chaque ordis en objet

@@ -1,4 +1,4 @@
-package com.excilys.beans;
+package com.excilys.models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

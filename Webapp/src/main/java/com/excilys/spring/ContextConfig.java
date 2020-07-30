@@ -14,7 +14,7 @@ public class ContextConfig implements WebApplicationInitializer {
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		
 		AnnotationConfigWebApplicationContext webContext = new AnnotationConfigWebApplicationContext();
-		webContext.register(MvcConfig.class);
+		webContext.register(MvcConfig.class, SpringSecurity.class);
 		webContext.setServletContext(servletContext);
 		ServletRegistration.Dynamic servlet = servletContext.addServlet("dispatcher", new DispatcherServlet(webContext));
 		servlet.setLoadOnStartup(1);

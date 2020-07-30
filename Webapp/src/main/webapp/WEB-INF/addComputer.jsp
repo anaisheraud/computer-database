@@ -15,7 +15,8 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="dashboard.html"> Application - Computer Database </a>
+            <a class="navbar-brand" href="listComputers"> Application - Computer Database </a>
+            <a class="navbar-brand pull-right" href="logout"> logout </a>
         </div>
     </header>
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.excilys.beans.Company;
+import com.excilys.models.Company;
 
 /**
  * Méthodes sans implémentation

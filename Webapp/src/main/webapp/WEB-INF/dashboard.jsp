@@ -18,6 +18,8 @@
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <a class="navbar-brand" href="listComputers"> <spring:message code="Title"/> </a>
+                        <a class="navbar-brand pull-right" href="logout"> logout </a>
+            
         </div>
     </header>
 

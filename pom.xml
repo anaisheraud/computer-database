@@ -14,7 +14,7 @@
 	<modules>
 
 		<module>Core</module>
-		<module>Persistance</module>
+		<module>Persistence</module>
 		<module>Services</module>
 		<module>Binding</module>
 		<module>Webapp</module>
